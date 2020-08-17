@@ -4,7 +4,7 @@ import { StyleSheet, View, Image, Dimensions, Text } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
-function A0Screen() {
+function A0Screen({navigation}) {
     return (
         <View style={styles.container} >
             <Text style={styles.indication}>
@@ -21,7 +21,7 @@ function A0Screen() {
                     labelStyle={styles.btnTxt}
                     uppercase={false}
                     mode="contained"
-                    onPress={() => console.log('Pressed')}>
+                    onPress={() => navigation.navigate('Objectif')}>
                     Apprendre et réviser
             </Button>
                 <Button style={styles.btn}

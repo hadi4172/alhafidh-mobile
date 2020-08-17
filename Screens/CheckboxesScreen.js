@@ -1,12 +1,27 @@
 import React from 'react';
-import { View, StyleSheet, Dimensions } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
+import CheckboxFlatList from '../Components/CheckboxFlatList';
+import { surahInfo } from "../Data/quranStats";
 
-const { width, height } = Dimensions.get('window');
+function CheckboxesScreen(props) {
+    useIsFocused();
+    
+    let { route } = props;
+    let { type } = route.params;
+    
+    const sendData = () => {
+        switch (type) {
+            case "Juz'": return objectMaker("Juz'", 30);
+            case "Surah": return surahInfo;
+            case "Page": return objectMaker("Page", 604);
+            default: return [];
+        }
+    }
 
-function CheckboxesScreen(props,{navigation}) {
     return (
         <View style={styles.container} >
-
+            <CheckboxFlatList data={sendData()} />
         </View >
     );
 }
@@ -19,5 +34,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     }
 });
+
+function objectMaker(name, size) {
+    let data = [];
+    for (let i = 1; i < size + 1; i++) {
+        data.push({ 'id': i, "name": `${name} ${i}` });
+    }
+    return data;
+}
 
 export default CheckboxesScreen;
