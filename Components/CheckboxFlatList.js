@@ -8,7 +8,7 @@ const { width } = Dimensions.get('window');
 
 
 function Checkbox(props) {
-    let { isChecked, id, onPress, dispatcher, type } = props;
+    let { isChecked, id, onPress, dispatcher, type, screen } = props;
     const [toggleCheckBox, setToggleCheckBox] = useState(isChecked);
 
 
@@ -20,8 +20,8 @@ function Checkbox(props) {
     return (
         <ElementCheckBox checked={toggleCheckBox} size={40} onPress={() => {
             setToggleCheckBox(!toggleCheckBox);
-            dispatcher({ type: "toMemorize/toggle", payload: [type, parseInt(id)] })
-            dispatcher({ type: "toMemorize/convert", payload: type })
+            dispatcher({ type: `${screen}/toggle`, payload: [type, parseInt(id)] })
+            dispatcher({ type: `${screen}/convert`, payload: type })
             onPress();
             // console.log(`listStateCB:`,listState);
         }} />
@@ -30,7 +30,7 @@ function Checkbox(props) {
 
 
 function CheckboxFlatList(props) {
-    let { data } = props;
+    let { data, screen } = props;
 
     let currentType = (() => {
         switch (data.length) {
@@ -40,7 +40,7 @@ function CheckboxFlatList(props) {
             default: return null
         }
     })();
-    let selectCurrentState = useSelector(state => state.toMemorize.value)[currentType].map(x => x = x + "");
+    let selectCurrentState = useSelector(state => state[screen].value)[currentType].map(x => x += "");
     let dispatch = useDispatch();
 
     const returnIfChecked = (x) => {
@@ -59,6 +59,7 @@ function CheckboxFlatList(props) {
                         <View style={[styles.container2, data.length === 114 ? { width: "84%" } : {}]}>
                             <Checkbox
                                 id={item.id.toString()}
+                                screen={screen}
                                 type={currentType}
                                 dispatcher={dispatch}
                                 isChecked={returnIfChecked(item.id.toString())}

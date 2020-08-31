@@ -1,14 +1,13 @@
 // import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit';
-import memorizedReducer from "./memorizedSlice"
-import toMemorizeReducer from "./toMemorizeSlice"
-import familiarReducer from "./familiarSlice"
+import { familiarReducer, toMemorizeReducer, memorizedReducer, finishDateReducer } from "./slices"
 
 const store = configureStore({
-    reducer: {          
+    reducer: {
         memorized: memorizedReducer,
         familiar: familiarReducer,
-        toMemorize: toMemorizeReducer
+        toMemorize: toMemorizeReducer,
+        finishDate: finishDateReducer
     }
 });
 

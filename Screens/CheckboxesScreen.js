@@ -8,7 +8,7 @@ function CheckboxesScreen(props) {
     useIsFocused();
     
     let { route } = props;
-    let { type } = route.params;
+    let { type, screen } = route.params;
     
     const sendData = () => {
         switch (type) {
@@ -21,7 +21,7 @@ function CheckboxesScreen(props) {
 
     return (
         <View style={styles.container} >
-            <CheckboxFlatList data={sendData()} />
+            <CheckboxFlatList data={sendData()} screen={screen} />
         </View >
     );
 }

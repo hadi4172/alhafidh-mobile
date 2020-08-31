@@ -5,9 +5,9 @@ import CheckboxesScreen from '../Screens/CheckboxesScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
-function TopTabNavigator(props) {
-  let { navigation } = props;
-
+function PartsTopTabNavigator(props) {
+  let { navigation, route } = props;
+  let { screen } = route.params;
 
   useLayoutEffect(() => {
     navigation.setOptions({});
@@ -15,10 +15,10 @@ function TopTabNavigator(props) {
 
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Juz'" component={CheckboxesScreen} initialParams={{ type: "Juz'" }} />
-      <Tab.Screen name="Surah" component={CheckboxesScreen} initialParams={{ type: "Surah" }} />
-      <Tab.Screen name="Page" component={CheckboxesScreen} initialParams={{ type: "Page" }} />
+      <Tab.Screen name="Juz'" component={CheckboxesScreen} initialParams={{ type: "Juz'", screen: screen}} />
+      <Tab.Screen name="Surah" component={CheckboxesScreen} initialParams={{ type: "Surah", screen: screen }} />
+      <Tab.Screen name="Page" component={CheckboxesScreen} initialParams={{ type: "Page", screen: screen }} />
     </Tab.Navigator>
   );
 }
-export default TopTabNavigator;
+export default PartsTopTabNavigator;
