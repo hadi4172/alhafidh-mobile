@@ -39,6 +39,7 @@ class HifdhInformator {
     getRevision(x) {
         //sum[0] contient le nombre de pages apprises à réviser. Son total redonne le nombre à réviser ajd. sum[1] contient le numéro des pages correspondant.
         // donc sum[1][x]-sum[0][x] jusqu'à sum[1][x] est l'intervalle à réviser pour la partie x dans sum
+        //a: le nombre de jour où il faudra lire la page chaque jour, après quoi, l'utilisateur lira 1 fois chaque c jours en incrémentant de 1 jusqu'à atteindre d jours
         let sum = [[], []];
         let resultArray = [];
         let a = 20, c = 8, d = 16,   //c et d valent en vrai 1 de moin

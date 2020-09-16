@@ -7,6 +7,7 @@ import 'moment-precise-range-plugin';
 import AverageHifdhBox from "../Components/AverageHifdhBox";
 import HRGetter from "../Data/hifdhAndRevisionGetter";
 import { Row, Grid } from "../ImportIndex/index";
+import { ScrollView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 
@@ -17,24 +18,67 @@ function I4Screen(props) {
         toMemorize = useSelector(state => state.toMemorize.value)[2].length,
         myHRGetter = new HRGetter(toMemorize, daysToFinish, memorized),
         today = (new Date()).setHours(0, 0, 0, 0),
-        oneThirdFinishDate = new Date(+today + Math.round(daysToFinish * (1 / 3) * 86400000)),
-        twoThirdFinishDate = new Date(+today + Math.round(daysToFinish * (2 / 3) * 86400000)),
-        finishDate = new Date(+today + daysToFinish * 86400000),
         displayedDate = moment.preciseDiff(today, moment(today).add(daysToFinish, "days")).replace(/[0-9]{0,2} hour.*/ig, ''),
-        dateArg0 = moment(today).format('MMM Do YY'),
-        dateArg1 = moment(oneThirdFinishDate).format('MMM Do YY'),
-        dateArg2 = moment(twoThirdFinishDate).format('MMM Do YY'),
-        dateArg3 = moment(finishDate).format('MMM Do YY'),
-        isLongPeriod = daysToFinish > 28,
-        avgH0 = myHRGetter.getAverageMemorization(0,daysToFinish * (1 / 3),isLongPeriod),
-        avgH1 = myHRGetter.getAverageMemorization(daysToFinish * (1 / 3), daysToFinish * (2 / 3),isLongPeriod),
-        avgH2 = myHRGetter.getAverageMemorization(daysToFinish * (2 / 3), daysToFinish,isLongPeriod),
-        avgH3 = myHRGetter.getAverageMemorization(daysToFinish+100,daysToFinish+300,isLongPeriod),
-        avgR0 = myHRGetter.getAverageRevision(0,daysToFinish * (1 / 3)),
-        avgR1 = myHRGetter.getAverageRevision(daysToFinish * (1 / 3), daysToFinish * (2 / 3)),
-        avgR2 = myHRGetter.getAverageRevision(daysToFinish * (2 / 3), daysToFinish),
-        avgR3 = myHRGetter.getAverageRevision(daysToFinish+100,daysToFinish+300);
-        // console.log(`daysToFinish * (1 / 3):`,daysToFinish * (1 / 3));
+        numberOfBoxes = 4,
+        isLongPeriod = daysToFinish > (7*numberOfBoxes);
+
+    const getTextDateIntervalArray = (numOfBoxesBeforeCompletion) => {
+        let dateIntervals = [];
+        dateIntervals.push(moment(today).format('MMM Do YY'));
+        for (let i = 1; i <= numOfBoxesBeforeCompletion; i++) {
+            dateIntervals.push(moment(new Date(+today + Math.round(daysToFinish * (i / numOfBoxesBeforeCompletion) * 86400000))).format('MMM Do YY'));
+        }
+        return dateIntervals;
+    }
+
+    const getAvgHifdhPerBoxArray = (numOfBoxes) => {
+        let avgHifdh = [];
+        for (let i = 0; i < numOfBoxes; i++) {
+            avgHifdh.push(myHRGetter.getAverageMemorization(daysToFinish * (i / (numOfBoxes-1)), daysToFinish * (i + 1 / (numOfBoxes-1)), isLongPeriod));
+        }
+        avgHifdh.push(myHRGetter.getAverageMemorization(daysToFinish + 100, daysToFinish + 300, isLongPeriod));
+        console.log(`avgHifdh:`,avgHifdh);
+        return avgHifdh;
+    }
+
+    const getAverageRevisionPerBoxArray = (numOfBoxes) => {
+        let avgRev = [];
+        for (let i = 0; i < numOfBoxes; i++) {
+            avgRev.push(myHRGetter.getAverageRevision(daysToFinish * (i / (numOfBoxes-1)), daysToFinish * (i + 1 / (numOfBoxes-1))));
+        }
+        avgRev.push(myHRGetter.getAverageRevision(daysToFinish + 100, daysToFinish + 300));
+        return avgRev;
+    }
+
+    const renderAvgHifdhBoxes = (numOfBoxes) => {
+        let avgHifdhBoxes = [];
+        let txtDateIntervals = getTextDateIntervalArray(numOfBoxes - 1);
+        let avgHifdhPerBox = getAvgHifdhPerBoxArray(numOfBoxes);
+        let avgRevPerBox = getAverageRevisionPerBoxArray(numOfBoxes);
+        for (let i = 0; i < numOfBoxes - 1; i++) {
+            avgHifdhBoxes.push(
+                <AverageHifdhBox
+                    key={i}
+                    size={width * 0.42}
+                    date={txtDateIntervals[i] + " - " + txtDateIntervals[i + 1]}
+                    isLongPeriod={isLongPeriod}
+                    pagesToReview={avgRevPerBox[i]}
+                    pagesToMemorize={avgHifdhPerBox[i]}
+                />
+            )
+        }
+        avgHifdhBoxes.push(
+            <AverageHifdhBox
+                key={numOfBoxes}
+                size={width * 0.42}
+                date={"After completion"}
+                isLongPeriod={isLongPeriod}
+                pagesToReview={avgRevPerBox[numOfBoxes - 1]}
+                pagesToMemorize={avgHifdhPerBox[numOfBoxes - 1]}
+            />
+        )
+        return avgHifdhBoxes;
+    }
 
     return (
         <Grid style={[styles.showBorder]}>
@@ -43,52 +87,55 @@ function I4Screen(props) {
                     Voici le nombre de page <Text style={{ textDecorationLine: 'underline' }}>moyen</Text> à apprendre et reviser pour terminer dans une durée de {displayedDate}. Cela vous convient-il ?
                 </Text>
             </Row>
-            <Row size={57.5} style={[styles.showBorder, styles.centerContentX, styles.centerContentY]}>
-                <View style={[{ height: width * 0.88, width: width * 0.88 }, styles.flexWrap, styles.showBorder, styles.rowDirection]}>
-                    <AverageHifdhBox size={width * 0.42} date={dateArg0 + " - " + dateArg1} isLongPeriod={isLongPeriod} pagesToReview={avgR0} pagesToMemorize={avgH0} />
-                    <AverageHifdhBox size={width * 0.42} date={dateArg1 + " - " + dateArg2} isLongPeriod={isLongPeriod} pagesToReview={avgR1} pagesToMemorize={avgH1} />
-                    <AverageHifdhBox size={width * 0.42} date={dateArg2 + " - " + dateArg3} isLongPeriod={isLongPeriod} pagesToReview={avgR2} pagesToMemorize={avgH2} />
-                    <AverageHifdhBox size={width * 0.42} date={"After completion"}          isLongPeriod={isLongPeriod} pagesToReview={avgR3} pagesToMemorize={avgH3} />
-                </View>
-            </Row>
-            <Row size={15} style={[styles.showBorder, styles.centerContentX, styles.centerContentY]}>
-                <Button style={styles.btn}
-                    contentStyle={styles.btnIn}
-                    theme={{ roundness: 115 }}
-                    color="green"
-                    labelStyle={styles.btnTxt}
-                    uppercase={false}
-                    // mode="contained"
-                    onPress={() => {
-                        navigation.navigate('I3');
-                    }
-                    }>
-                    Retour
-                </Button>
-                <Button style={styles.btn}
-                    contentStyle={styles.btnIn}
-                    theme={{ roundness: 115 }}
-                    color="green"
-                    labelStyle={styles.btnTxt}
-                    uppercase={false}
-                    // mode="contained"
-                    onPress={() => {
-                        navigation.navigate('I4');
-                    }
-                    }>
-                    Continuer
-                </Button>
-            </Row>
+            <Row size={72.5} style={[styles.showBorder, styles.centerContentX, styles.centerContentY]}>
+                <ScrollView>
+                    <Grid>
+                        <Row size={80} style={[styles.centerContentY]}>
+                            <View style={[{ width: width * 0.88 }, styles.flexWrap, styles.showBorder, styles.rowDirection]}>
+                                {renderAvgHifdhBoxes(numberOfBoxes)}
+                            </View>
+                        </Row>
+                        <Row size={15} style={[styles.showBorder, styles.centerContentX, styles.centerContentY]}>
+                                <Button style={styles.btn}
+                                    contentStyle={styles.btnIn}
+                                    theme={{ roundness: 115 }}
+                                    color="green"
+                                    labelStyle={styles.btnTxt}
+                                    uppercase={false}
+                                    // mode="contained"
+                                    onPress={() => {
+                                        navigation.navigate('I3');
+                                    }
+                                    }>
+                                    Retour
+                                </Button>
+                                <Button style={styles.btn}
+                                    contentStyle={styles.btnIn}
+                                    theme={{ roundness: 115 }}
+                                    color="green"
+                                    labelStyle={styles.btnTxt}
+                                    uppercase={false}
+                                    // mode="contained"
+                                    onPress={() => {
+                                        navigation.navigate('I4');
+                                    }
+                                    }>
+                                    Continuer
+                                </Button>
+                            </Row>
+                    </Grid>
+                </ScrollView>
+            </Row >
         </Grid >
     );
 }
 
 const styles = StyleSheet.create({
     showBorder: {
-        // borderColor: 'black',
-        // borderStyle: 'dotted',
-        // borderWidth: 1,
-        // margin: 1
+        borderColor: 'black',
+        borderStyle: 'dotted',
+        borderWidth: 1,
+        margin: 1
     },
     container: {
     },
