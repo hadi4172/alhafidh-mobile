@@ -5,14 +5,17 @@ import I0Screen from '../Screens/I0';
 import I1Screen from '../Screens/I1';
 import I3Screen from '../Screens/I3';
 import I4Screen from '../Screens/I4';
+import I5Screen from '../Screens/I5';
+import E0Screen from '../Screens/E0';
 import { Button } from 'react-native-paper';
 import PartsTopTabNavigator from './TopTabBar';
+import SwiperMainTutorial from './SwiperMainTutorial';
 
 const Stack = createStackNavigator();
 
 function InitialConfigurationStack() {
   return (
-    <Stack.Navigator initialRouteName="Mémorisé" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="I5" screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="I0Screen"
         component={I0Screen}
@@ -95,6 +98,21 @@ function InitialConfigurationStack() {
       <Stack.Screen
         name="I4"
         component={I4Screen}
+      />
+
+      <Stack.Screen
+        name="I5"
+        component={I5Screen}
+      />
+
+      <Stack.Screen
+        name="E0"
+        component={E0Screen}
+      />
+
+      <Stack.Screen
+        name="SwiperMainTutorial"
+        component={SwiperMainTutorial}
       />
 
     </Stack.Navigator>

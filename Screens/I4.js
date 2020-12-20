@@ -19,8 +19,8 @@ function I4Screen(props) {
         myHRGetter = new HRGetter(toMemorize, daysToFinish, memorized),
         today = (new Date()).setHours(0, 0, 0, 0),
         displayedDate = moment.preciseDiff(today, moment(today).add(daysToFinish, "days")).replace(/[0-9]{0,2} hour.*/ig, ''),
-        numberOfBoxes = 4,
-        isLongPeriod = daysToFinish > (7*numberOfBoxes);
+        numberOfBoxes = daysToFinish > 365 ? 8 : 4,
+        isLongPeriod = daysToFinish > (20 * numberOfBoxes);
 
     const getTextDateIntervalArray = (numOfBoxesBeforeCompletion) => {
         let dateIntervals = [];
@@ -34,33 +34,33 @@ function I4Screen(props) {
     const getAvgHifdhPerBoxArray = (numOfBoxes) => {
         let avgHifdh = [];
         for (let i = 0; i < numOfBoxes; i++) {
-            avgHifdh.push(myHRGetter.getAverageMemorization(daysToFinish * (i / (numOfBoxes-1)), daysToFinish * (i + 1 / (numOfBoxes-1)), isLongPeriod));
+            avgHifdh.push(myHRGetter.getAverageMemorization(daysToFinish * (i / numOfBoxes), daysToFinish * ((i + 1) / numOfBoxes), isLongPeriod));
         }
-        avgHifdh.push(myHRGetter.getAverageMemorization(daysToFinish + 100, daysToFinish + 300, isLongPeriod));
-        console.log(`avgHifdh:`,avgHifdh);
+        avgHifdh.push(myHRGetter.getAverageMemorization(daysToFinish + 500, daysToFinish + 800, isLongPeriod));
+        console.log(`avgHifdh:`, avgHifdh);
         return avgHifdh;
     }
 
     const getAverageRevisionPerBoxArray = (numOfBoxes) => {
         let avgRev = [];
         for (let i = 0; i < numOfBoxes; i++) {
-            avgRev.push(myHRGetter.getAverageRevision(daysToFinish * (i / (numOfBoxes-1)), daysToFinish * (i + 1 / (numOfBoxes-1))));
+            avgRev.push(myHRGetter.getAverageRevision(daysToFinish * (i / numOfBoxes), daysToFinish * ((i + 1) / numOfBoxes)));
         }
-        avgRev.push(myHRGetter.getAverageRevision(daysToFinish + 100, daysToFinish + 300));
+        avgRev.push(myHRGetter.getAverageRevision(daysToFinish + 500, daysToFinish + 800));
         return avgRev;
     }
 
     const renderAvgHifdhBoxes = (numOfBoxes) => {
         let avgHifdhBoxes = [];
         let txtDateIntervals = getTextDateIntervalArray(numOfBoxes - 1);
-        let avgHifdhPerBox = getAvgHifdhPerBoxArray(numOfBoxes);
-        let avgRevPerBox = getAverageRevisionPerBoxArray(numOfBoxes);
+        let avgHifdhPerBox = getAvgHifdhPerBoxArray(numOfBoxes - 1);
+        let avgRevPerBox = getAverageRevisionPerBoxArray(numOfBoxes - 1);
         for (let i = 0; i < numOfBoxes - 1; i++) {
             avgHifdhBoxes.push(
                 <AverageHifdhBox
                     key={i}
                     size={width * 0.42}
-                    date={txtDateIntervals[i] + " - " + txtDateIntervals[i + 1]}
+                    date={txtDateIntervals[i] + " -    " + txtDateIntervals[i + 1]}
                     isLongPeriod={isLongPeriod}
                     pagesToReview={avgRevPerBox[i]}
                     pagesToMemorize={avgHifdhPerBox[i]}
@@ -82,12 +82,13 @@ function I4Screen(props) {
 
     return (
         <Grid style={[styles.showBorder]}>
-            <Row size={27.5} style={[styles.showBorder, { alignItems: "flex-end" }, styles.centerContentY]}>
+            <Row size={5}></Row>
+            <Row size={30} style={[styles.showBorder, styles.centerContentX, styles.centerContentY]}>
                 <Text style={[styles.question, styles.showBorder]}>
                     Voici le nombre de page <Text style={{ textDecorationLine: 'underline' }}>moyen</Text> à apprendre et reviser pour terminer dans une durée de {displayedDate}. Cela vous convient-il ?
                 </Text>
             </Row>
-            <Row size={72.5} style={[styles.showBorder, styles.centerContentX, styles.centerContentY]}>
+            <Row size={70} style={[styles.showBorder, styles.centerContentX, styles.centerContentY, {marginTop: 10}]}>
                 <ScrollView>
                     <Grid>
                         <Row size={80} style={[styles.centerContentY]}>
@@ -96,33 +97,33 @@ function I4Screen(props) {
                             </View>
                         </Row>
                         <Row size={15} style={[styles.showBorder, styles.centerContentX, styles.centerContentY]}>
-                                <Button style={styles.btn}
-                                    contentStyle={styles.btnIn}
-                                    theme={{ roundness: 115 }}
-                                    color="green"
-                                    labelStyle={styles.btnTxt}
-                                    uppercase={false}
-                                    // mode="contained"
-                                    onPress={() => {
-                                        navigation.navigate('I3');
-                                    }
-                                    }>
-                                    Retour
+                            <Button style={styles.btn}
+                                contentStyle={styles.btnIn}
+                                theme={{ roundness: 115 }}
+                                color="green"
+                                labelStyle={styles.btnTxt}
+                                uppercase={false}
+                                // mode="contained"
+                                onPress={() => {
+                                    navigation.navigate('I3');
+                                }
+                                }>
+                                Retour
                                 </Button>
-                                <Button style={styles.btn}
-                                    contentStyle={styles.btnIn}
-                                    theme={{ roundness: 115 }}
-                                    color="green"
-                                    labelStyle={styles.btnTxt}
-                                    uppercase={false}
-                                    // mode="contained"
-                                    onPress={() => {
-                                        navigation.navigate('I4');
-                                    }
-                                    }>
-                                    Continuer
+                            <Button style={styles.btn}
+                                contentStyle={styles.btnIn}
+                                theme={{ roundness: 115 }}
+                                color="green"
+                                labelStyle={styles.btnTxt}
+                                uppercase={false}
+                                // mode="contained"
+                                onPress={() => {
+                                    navigation.navigate('I5');
+                                }
+                                }>
+                                Continuer
                                 </Button>
-                            </Row>
+                        </Row>
                     </Grid>
                 </ScrollView>
             </Row >
@@ -132,10 +133,10 @@ function I4Screen(props) {
 
 const styles = StyleSheet.create({
     showBorder: {
-        borderColor: 'black',
-        borderStyle: 'dotted',
-        borderWidth: 1,
-        margin: 1
+        // borderColor: 'black',
+        // borderStyle: 'dotted',
+        // borderWidth: 1,
+        // margin: 1
     },
     container: {
     },
@@ -167,7 +168,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         width: "82%",
         textAlign: "center",
-        fontSize: height * 0.035,
+        fontSize: height * 0.031,
         color: "#333333"
     },
     btnGroup: {

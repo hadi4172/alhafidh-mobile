@@ -43,8 +43,19 @@ const finishDateSlice = createSlice({
   }
 });
 
+const orderSlice = createSlice({
+  name: 'order',
+  initialState: {
+    value: true      //by default in the order of the mus'haf
+  },
+  reducers: {
+    set: set
+  }
+});
+
 
 export let familiarReducer = familiarSlice.reducer;
 export let toMemorizeReducer = toMemorizeSlice.reducer;
 export let memorizedReducer = memorizedSlice.reducer;
 export let finishDateReducer = finishDateSlice.reducer;
+export let orderReducer = orderSlice.reducer;

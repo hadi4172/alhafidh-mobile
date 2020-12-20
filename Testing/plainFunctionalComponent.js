@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 
-const { width } = Dimensions.get('window');
+const { width,height } = Dimensions.get('window');
 
 function myComponent(props) {
-    let { date, isLongPeriod, pagesToReview, pagesToMemorize } = props;
+    let {  } = props;
     return (
         <View>
         </View >

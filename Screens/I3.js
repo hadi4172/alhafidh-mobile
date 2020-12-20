@@ -109,7 +109,7 @@ function I3Screen({ navigation }) {
                     date={selectedDate}
                     onConfirm={handleConfirm}
                     onCancel={hideDatePicker}
-                    minimumDate={new Date(Date.now() + 1000 * 60 * 60 * 24 * 4)}
+                    minimumDate={new Date(Date.now() + 1000 * 60 * 60 * 24 * 30)}
                 />
             </Row>
         </Grid>
