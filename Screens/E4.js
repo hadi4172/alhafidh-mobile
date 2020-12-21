@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, Title } from 'react-native-paper';
 import { Grid, Row } from '../ImportIndex';
 
 const { width, height } = Dimensions.get('window');
@@ -9,13 +9,19 @@ function E4Screen(props) {
     let { navigation, scroll } = props;
     return (
         <Grid>
-            <Row size={5}>
+            <Row size={10} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
+            </Row>
+            <Row size={50} style={[styles.centerContentX, styles.showBorder]}>
+                <Title style={{ fontSize: 23 }}>Jauges</Title>
+                <Text style={{ fontSize: 10 }}></Text>
+                <Text style={[styles.question]}>Passé 30 jours sans que la jauge verte se vide, la partie passe dans l’ensemble Qadim.
+                À ce stade, la jauge verte restera stable à 15 points max et l’utilisateur restaurera 1 point à la révision.
+                  </Text>
+            </Row>
+            <Row size={30} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
 
             </Row>
-            <Row size={75} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
-                <Text style={[styles.question]}>Configuration terminée ! Nous allons maintenant vous expliquer le fonctionnement de l’application.</Text>
-            </Row>
-            <Row size={25} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
+            <Row size={20} style={[styles.centerContentX, styles.showBorder]}>
                 <Button style={styles.btn}
                     contentStyle={styles.btnIn}
                     theme={{ roundness: 115 }}
@@ -66,7 +72,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         width: "90%",
         textAlign: "center",
-        fontSize: height * 0.035,
+        fontSize: 19,
         color: "#333333"
     },
     btnGroup: {

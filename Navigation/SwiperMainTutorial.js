@@ -5,6 +5,7 @@ import E2Screen from '../Screens/E2';
 import E3Screen from '../Screens/E3';
 import E4Screen from '../Screens/E4';
 import E5Screen from '../Screens/E5';
+import E6Screen from '../Screens/E6';
 
 import Swiper from 'react-native-swiper'
 
@@ -27,6 +28,7 @@ function SwiperMainTutorial(props) {
                 <E3Screen navigation={navigation} scroll={scrollToNext} />
                 <E4Screen navigation={navigation} scroll={scrollToNext} />
                 <E5Screen navigation={navigation} scroll={scrollToNext} />
+                <E6Screen navigation={navigation} scroll={scrollToNext} />
             </Swiper>
         </View>
     );

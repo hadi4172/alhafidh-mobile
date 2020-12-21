@@ -5,32 +5,15 @@ import { Grid, Row } from '../ImportIndex';
 
 const { width, height } = Dimensions.get('window');
 
-function E1Screen(props) {
-    let { navigation, scroll } = props;
+function GaugeScreen(props) {
+    let { navigation } = props;
     return (
         <Grid>
-            <Row size={10} style={[styles.showBorder]}>
+            <Row size={5}>
 
             </Row>
-            <Row size={20} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
-                <Text style={[styles.question]}>Chaque jour, vous aurez une partie à apprendre/réviser que vous cocherez quand vous aurez terminé .</Text>
-            </Row>
-            <Row size={60} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
-            </Row>
-            <Row size={30} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
-                <Button style={styles.btn}
-                    contentStyle={styles.btnIn}
-                    theme={{ roundness: 115 }}
-                    color="green"
-                    labelStyle={styles.btnTxt}
-                    uppercase={false}
-                    // mode="contained"
-                    onPress={() => {
-                        scroll();
-                    }
-                    }>
-                    Suivant
-                    </Button>
+            <Row size={75} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
+                <Text style={[styles.question]}>Ecran Gauge</Text>
             </Row>
         </Grid>
     );
@@ -90,4 +73,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default E1Screen;
+export default GaugeScreen;

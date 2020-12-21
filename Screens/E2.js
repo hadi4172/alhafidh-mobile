@@ -9,13 +9,17 @@ function E2Screen(props) {
     let { navigation, scroll } = props;
     return (
         <Grid>
-            <Row size={5}>
+            <Row size={10} style={[styles.showBorder]}>
 
             </Row>
-            <Row size={75} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
-                <Text style={[styles.question]}>Configuration terminée ! Nous allons maintenant vous expliquer le fonctionnement de l’application.</Text>
+            <Row size={20} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
+                <Text style={[styles.question]}>Les parties mémorisées entrent dans 2 categories : Jadid (Nouveau) et Qadim (Ancien)</Text>
             </Row>
-            <Row size={25} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
+            <Row size={50} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
+                <Text style={[styles.question]}><Text style={{backgroundColor:"khaki"}}>Makhzun</Text> : La partie du Coran qui est dans votre mémoire <Text style={{textDecorationLine:"underline"}}>à{"\u00a0"}court{"\u00a0"}terme</Text>{"\n\n"}
+                <Text style={{backgroundColor:"khaki"}}>Qadim</Text> : La partie du Coran qui est dans votre mémoire <Text style={{textDecorationLine:"underline"}}>à{"\u00a0"}long{"\u00a0"}terme</Text></Text>
+            </Row>
+            <Row size={20} style={[styles.centerContentX, styles.showBorder]}>
                 <Button style={styles.btn}
                     contentStyle={styles.btnIn}
                     theme={{ roundness: 115 }}
@@ -28,7 +32,7 @@ function E2Screen(props) {
                     }
                     }>
                     Suivant
-                    </Button>
+                </Button>
             </Row>
         </Grid>
     );

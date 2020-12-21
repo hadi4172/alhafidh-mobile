@@ -21,7 +21,6 @@ function I5Screen({ navigation }) {
             </Row>
             <Row size={55} style={[styles.centerContentX, styles.centerContentY, styles.showBorder, { flexDirection: "column" }]}>
                 <Text style={[styles.question]}>Dans quel ordre souhaitez vous mémoriser ?</Text>
-                <Text style={styles.question}>Dans quel ordre souhaitez vous mémoriser ?</Text>
             </Row>
             <Row size={45} style={[styles.centerContentX, styles.centerContentY, styles.showBorder, { flexDirection: "column" }]}>
                 <Button style={styles.btn}

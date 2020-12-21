@@ -10,12 +10,13 @@ import E0Screen from '../Screens/E0';
 import { Button } from 'react-native-paper';
 import PartsTopTabNavigator from './TopTabBar';
 import SwiperMainTutorial from './SwiperMainTutorial';
+import MainTabbar from './MainTabbar';
 
 const Stack = createStackNavigator();
 
 function InitialConfigurationStack() {
   return (
-    <Stack.Navigator initialRouteName="I5" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="Menu" screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="I0Screen"
         component={I0Screen}
@@ -113,6 +114,11 @@ function InitialConfigurationStack() {
       <Stack.Screen
         name="SwiperMainTutorial"
         component={SwiperMainTutorial}
+      />
+
+      <Stack.Screen
+        name="Menu"
+        component={MainTabbar}
       />
 
     </Stack.Navigator>
