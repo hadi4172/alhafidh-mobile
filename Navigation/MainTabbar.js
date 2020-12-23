@@ -20,7 +20,7 @@ function MainTabbar() {
                 options={{
                     tabBarBadge: hasFinishedTodayGoal ? false : "",
                     tabBarColor: "steelblue",
-                    tabBarLabel: 'Todo',
+                    tabBarLabel: 'À faire',
                     tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons name="format-list-checks" color={color} size={26} />
                     ),
@@ -42,7 +42,7 @@ function MainTabbar() {
                 component={GaugesScreen}
                 options={{
                     tabBarColor: "firebrick",
-                    tabBarLabel: 'Gauges',
+                    tabBarLabel: 'Jauges',
                     tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons name="finance" color={color} size={26} />
                     ),
@@ -53,7 +53,7 @@ function MainTabbar() {
                 component={ProfileScreen}
                 options={{
                     tabBarColor: "darkgoldenrod",
-                    tabBarLabel: 'Profile',
+                    tabBarLabel: 'Profil',
                     tabBarIcon: ({ color }) => (
                         <MaterialCommunityIcons name="account" color={color} size={26} />
                     ),

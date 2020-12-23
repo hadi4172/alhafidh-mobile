@@ -13,7 +13,7 @@ function GaugeScreen(props) {
 
             </Row>
             <Row size={75} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
-                <Text style={[styles.question]}>Ecran Gauge</Text>
+                <Text style={[styles.question]}>Écran Jauge</Text>
             </Row>
         </Grid>
     );

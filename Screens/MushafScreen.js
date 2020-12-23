@@ -13,7 +13,7 @@ function MushafScreen(props) {
 
             </Row>
             <Row size={75} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
-                <Text style={[styles.question]}>Ecran Mus'haf</Text>
+                <Text style={[styles.question]}>Écran Mus'haf</Text>
             </Row>
         </Grid>
     );

@@ -13,7 +13,7 @@ function E0Screen(props) {
 
             </Row>
             <Row size={75} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
-                <Text style={[styles.question]}>Ecran Todo</Text>
+                <Text style={[styles.question]}>Écran "À faire"</Text>
             </Row>
         </Grid>
     );
