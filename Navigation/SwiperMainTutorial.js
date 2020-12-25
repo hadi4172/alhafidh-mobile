@@ -1,11 +1,11 @@
 import React, {useRef} from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
-import E1Screen from '../Screens/E1';
-import E2Screen from '../Screens/E2';
-import E3Screen from '../Screens/E3';
-import E4Screen from '../Screens/E4';
-import E5Screen from '../Screens/E5';
-import E6Screen from '../Screens/E6';
+import T1Screen from '../Screens/Tutorial/Tutorial1';
+import T2Screen from '../Screens/Tutorial/Tutorial2';
+import T3Screen from '../Screens/Tutorial/Tutorial3';
+import T4Screen from '../Screens/Tutorial/Tutorial4';
+import T5Screen from '../Screens/Tutorial/Tutorial5';
+import T6Screen from '../Screens/Tutorial/Tutorial6';
 
 import Swiper from 'react-native-swiper'
 
@@ -23,12 +23,12 @@ function SwiperMainTutorial(props) {
     return (
         <View style={{ flex: 1 }}>
             <Swiper ref={swiper} loop={false} bounces={true}>
-                <E1Screen navigation={navigation} scroll={scrollToNext} />
-                <E2Screen navigation={navigation} scroll={scrollToNext} />
-                <E3Screen navigation={navigation} scroll={scrollToNext} />
-                <E4Screen navigation={navigation} scroll={scrollToNext} />
-                <E5Screen navigation={navigation} scroll={scrollToNext} />
-                <E6Screen navigation={navigation} scroll={scrollToNext} />
+                <T1Screen navigation={navigation} scroll={scrollToNext} />
+                <T2Screen navigation={navigation} scroll={scrollToNext} />
+                <T3Screen navigation={navigation} scroll={scrollToNext} />
+                <T4Screen navigation={navigation} scroll={scrollToNext} />
+                <T5Screen navigation={navigation} scroll={scrollToNext} />
+                <T6Screen navigation={navigation} scroll={scrollToNext} />
             </Swiper>
         </View>
     );

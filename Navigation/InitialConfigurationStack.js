@@ -1,12 +1,12 @@
 import React from 'react';
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
-import I0Screen from '../Screens/I0';
-import I1Screen from '../Screens/I1';
-import I3Screen from '../Screens/I3';
-import I4Screen from '../Screens/I4';
-import I5Screen from '../Screens/I5';
-import E0Screen from '../Screens/E0';
+import I0Screen from '../Screens/Intro/Intro0';
+import I1Screen from '../Screens/Intro/Intro1';
+import I3Screen from '../Screens/Intro/Intro3';
+import I4Screen from '../Screens/Intro/Intro4';
+import I5Screen from '../Screens/Intro/Intro5';
+import T0Screen from '../Screens/Tutorial/Tutorial0';
 import { Button } from 'react-native-paper';
 import PartsTopTabNavigator from './TopTabBar';
 import SwiperMainTutorial from './SwiperMainTutorial';
@@ -107,8 +107,8 @@ function InitialConfigurationStack() {
       />
 
       <Stack.Screen
-        name="E0"
-        component={E0Screen}
+        name="T0"
+        component={T0Screen}
       />
 
       <Stack.Screen

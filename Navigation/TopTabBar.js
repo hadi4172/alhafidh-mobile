@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import CheckboxesScreen from '../Screens/CheckboxesScreen';
+import CheckboxesScreen from '../Screens/Intro/CheckboxesScreen';
 
 
 const Tab = createMaterialTopTabNavigator();

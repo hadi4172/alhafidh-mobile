@@ -2,10 +2,10 @@ import React, { useLayoutEffect } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import TodoScreen from "../Screens/TodoScreen";
-import MushafScreen from "../Screens/MushafScreen";
-import GaugesScreen from "../Screens/GaugesScreen";
-import ProfileScreen from "../Screens/ProfileScreen";
+import TodoScreen from "../Screens/Menu/TodoScreen";
+import MushafScreen from "../Screens/Menu/MushafScreen";
+import GaugesScreen from "../Screens/Menu/GaugesScreen";
+import ProfileScreen from "../Screens/Menu/ProfileScreen";
 
 
 const Tab = createMaterialBottomTabNavigator();
