@@ -4,6 +4,7 @@ import { Button } from 'react-native-paper';
 import { ListItem, Icon } from "react-native-elements";
 import { Grid, Row } from '../../ImportIndex';
 import { ScrollView } from 'react-native-gesture-handler';
+import OverviewBar from '../../Components/OverviewBar';
 
 const { width, height } = Dimensions.get('window');
 
@@ -19,46 +20,46 @@ function ProfileScreen(props) {
         title: "Hadiths sur le Coran",
         icon: "scroll",
         ...iconProperties,
-        action:()=>{}
+        action: () => { }
     }, {
         title: "Compteur de Hasanats",
         icon: "calculator",
         ...iconProperties,
-        action:()=>{}
+        action: () => { }
     }, {
         title: "Signaler un bug",
         icon: "bug",
         ...iconProperties,
-        action:()=>{}
+        action: () => { }
     }, {
         title: "Nous contacter",
         icon: "envelope-open-text",
         ...iconProperties,
-        action:()=>{}
+        action: () => { }
     }, {
         title: "Crédit",
         icon: "heart",
         ...iconProperties,
-        action:()=>{}
+        action: () => { }
     }, {
         title: "Tutoriel",
         icon: "question-circle",
         ...iconProperties,
-        action: ()=>{
+        action: () => {
             navigation.navigate("SwiperMainTutorial");
         }
     }, {
         title: "Paramètres",
         icon: "sliders-h",
         ...iconProperties,
-        action:()=>{}
+        action: () => { }
     }];
 
     const renderList = () => {
         return (
             list.map((item, i) => (
                 <ListItem key={i} bottomDivider onPress={item.action}>
-                    <Icon name={item.icon} type={item.type} color={item.color} size={20} solid={true}/>
+                    <Icon name={item.icon} type={item.type} color={item.color} size={20} solid={true} />
                     <ListItem.Content>
                         <ListItem.Title>{item.title}</ListItem.Title>
                     </ListItem.Content>
@@ -69,12 +70,18 @@ function ProfileScreen(props) {
     }
 
     return (
-        <View style={{ flex: 1 }}>
-            <ScrollView>
-                <View style={{ height: 30 }}></View>
-                {renderList()}
-            </ScrollView>
-        </View>
+        <Grid>
+            <Row size={5}></Row>
+            
+            <Row size={95} style={[styles.centerContentX]}>
+                <OverviewBar />
+               <View style={{width:"100%", height:"90%"}}>
+                    <ScrollView>
+                        {renderList()}
+                    </ScrollView>
+               </View>
+            </Row>
+        </Grid>
     );
 }
 

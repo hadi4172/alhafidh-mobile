@@ -5,7 +5,7 @@ import { Button } from 'react-native-paper';
 import moment from "moment";
 import 'moment-precise-range-plugin';
 import AverageHifdhBox from "../../Components/AverageHifdhBox";
-import HRGetter from "../../Data/hifdhAndRevisionGetter";
+import HifdhInformator from "../../Data/hifdhInformator";
 import { Row, Grid } from "../../ImportIndex/index";
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -16,7 +16,7 @@ function I4Screen(props) {
         daysToFinish = useSelector(state => state.finishDate.value),
         memorized = useSelector(state => state.memorized.value)[2].length,
         toMemorize = useSelector(state => state.toMemorize.value)[2].length,
-        myHRGetter = new HRGetter(toMemorize, daysToFinish, memorized),
+        hifdhInformator = new HifdhInformator(toMemorize, daysToFinish, memorized),
         today = (new Date()).setHours(0, 0, 0, 0),
         displayedDate = moment.preciseDiff(today, moment(today).add(daysToFinish, "days")).replace(/[0-9]{0,2} hour.*/ig, ''),
         numberOfBoxes = daysToFinish > 365 ? 8 : 4,
@@ -34,9 +34,9 @@ function I4Screen(props) {
     const getAvgHifdhPerBoxArray = (numOfBoxes) => {
         let avgHifdh = [];
         for (let i = 0; i < numOfBoxes; i++) {
-            avgHifdh.push(myHRGetter.getAverageMemorization(daysToFinish * (i / numOfBoxes), daysToFinish * ((i + 1) / numOfBoxes), isLongPeriod));
+            avgHifdh.push(hifdhInformator.getAverageMemorization(daysToFinish * (i / numOfBoxes), daysToFinish * ((i + 1) / numOfBoxes), isLongPeriod));
         }
-        avgHifdh.push(myHRGetter.getAverageMemorization(daysToFinish + 500, daysToFinish + 800, isLongPeriod));
+        avgHifdh.push(hifdhInformator.getAverageMemorization(daysToFinish + 500, daysToFinish + 800, isLongPeriod));
         // console.log(`avgHifdh:`, avgHifdh);
         return avgHifdh;
     }
@@ -44,9 +44,9 @@ function I4Screen(props) {
     const getAverageRevisionPerBoxArray = (numOfBoxes) => {
         let avgRev = [];
         for (let i = 0; i < numOfBoxes; i++) {
-            avgRev.push(myHRGetter.getAverageRevision(daysToFinish * (i / numOfBoxes), daysToFinish * ((i + 1) / numOfBoxes)));
+            avgRev.push(hifdhInformator.getAverageRevision(daysToFinish * (i / numOfBoxes), daysToFinish * ((i + 1) / numOfBoxes)));
         }
-        avgRev.push(myHRGetter.getAverageRevision(daysToFinish + 500, daysToFinish + 800));
+        avgRev.push(hifdhInformator.getAverageRevision(daysToFinish + 500, daysToFinish + 800));
         return avgRev;
     }
 

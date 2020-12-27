@@ -1,38 +1,39 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { Button } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Grid, Row } from '../../ImportIndex';
-import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import OverviewBar from '../../Components/OverviewBar';
+import PartStatus from '../../Components/PartStatus';
 
 const { width, height } = Dimensions.get('window');
 
 function GaugeScreen(props) {
     let { navigation } = props;
+
+    const showPartStatus = () => {
+        let components = [];
+        for (let i = 0; i < 14; i++) components.push(<PartStatus key={i.toString()} />)
+        return components
+    }
+
     return (
         <Grid>
             <Row size={5}>
 
             </Row>
-            <Row size={75} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
-                <Text style={[styles.question]}>Écran Jauge</Text>
-                <AnimatedCircularProgress
-                    size={200}
-                    width={3}
-                    fill={80}
-                    tintColor="#00e0ff"
-                    backgroundColor="#3d5875">
-                    {
-                        (fill) => (
-                            <Text>
-                                {80}
-                            </Text>
-                        )
-                    }
-                </AnimatedCircularProgress>
+            <Row size={95} style={[styles.centerContentX]}>
+                <OverviewBar />
+                <ScrollView>
+                    <View style={[styles.jaugesScrollView, styles.rowDirection, styles.showBorder]}>
+                        {showPartStatus()}
+                    </View>
+                </ScrollView>
             </Row>
         </Grid>
     );
 }
+
 
 const styles = StyleSheet.create({
     showBorder: {
@@ -42,6 +43,12 @@ const styles = StyleSheet.create({
         // margin: 1
     },
     container: {
+    },
+    jaugesScrollView: {
+        width: "100%", 
+        flexWrap: 'wrap', 
+        justifyContent: "center", 
+        marginTop: 10
     },
     centerContentX: {
         flexDirection: "column",

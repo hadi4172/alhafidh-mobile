@@ -1,19 +1,29 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { Button } from 'react-native-paper';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Grid, Row } from '../../ImportIndex';
+import OverviewBar from '../../Components/OverviewBar';
+import TodoRectangle from '../../Components/TodoRectangle';
 
 const { width, height } = Dimensions.get('window');
 
-function E0Screen(props) {
+function TodoScreen(props) {
     let { navigation } = props;
+
     return (
         <Grid>
             <Row size={5}>
 
             </Row>
-            <Row size={75} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
-                <Text style={[styles.question]}>Écran "À faire"</Text>
+            <Row size={95} style={[styles.centerContentX]}>
+                <OverviewBar />
+                <ScrollView style={[{width:"100%"}]}>
+                    <View style={[{ width: "100%", alignItems: "center", marginTop: 10 }, styles.showBorder]}>
+                        <TodoRectangle isRevision={true}/>
+                        <TodoRectangle isRevision={false}/>
+                    </View>
+                </ScrollView>
             </Row>
         </Grid>
     );
@@ -73,4 +83,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default E0Screen;
+export default TodoScreen;
