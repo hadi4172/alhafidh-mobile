@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, Dimensions, Text } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Dimensions, Text, Platform } from 'react-native';
 import { Grid, Row, Col } from '../ImportIndex';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
 
@@ -10,43 +10,68 @@ function TodoRectangle(props) {
 
     const [fill, setFill] = useState(0);
 
-    let color = isRevision ? "lightgray" : "lightgreen";
-    let borderColor = isRevision ? "lightslategray" : "limegreen";
-    let title =  isRevision ? "Révision" : "Mémorisation";
+    let color = isRevision ? "#0294e3" : "lightgreen";
+    let borderColor = isRevision ? "#0173B1" : "limegreen";
+    let textColor = isRevision ? "white" : "#004d00";
+    let title = isRevision ? "Révision" : "Mémorisation";
+    let circularProgressColors = isRevision ? ["#0173B1", "#b3e4ff"] : ["lightseagreen", "#ccffcc"];
     let denominator = 8;
 
     return (
         <View style={[{ backgroundColor: color, borderColor: borderColor }, styles.container]}>
             <Grid style={[styles.showBorder]}>
-                <Col style={[styles.showBorder, {paddingLeft:10, paddingTop:7}]}>
-                    <Text style={[{fontSize:20, fontWeight:"bold", marginBottom:3}]}>{title}</Text>
-                    <Text style={{fontSize:16}}>Page {Math.round(Math.random() * 600)}</Text>
-                    <Text style={{fontSize:16}}>Ligne 5-15</Text>
+                <Col style={[styles.showBorder, { paddingLeft: 10, paddingTop: 7 }]}>
+                    <TouchableOpacity style={{ height: "100%" }} onPress={() => {
+                        if (Math.round(fill - 100 / denominator) >= 0)
+                            setFill(fill - 100 / denominator);
+                    }}>
+                        <Text style={[{ fontSize: 21, fontWeight: "bold", marginBottom: 3, color:textColor }]}>{title}</Text>
+                        <Text style={{ fontSize: 16, color:textColor }}>Page {Math.round(Math.random() * 600)}</Text>
+                        <Text style={{ fontSize: 16, color:textColor }}>Ligne 5-15</Text>
+                    </TouchableOpacity>
                 </Col>
 
                 <Col style={[styles.showBorder, styles.centerContentY, { width: 125, alignItems: "center" }]}>
-                    <TouchableOpacity onPress={() => {
-                        if (fill + 100/denominator < 99)
-                            setFill(fill + 100/denominator);
+                    <TouchableOpacity style={{ borderWidth: 2, borderColor: borderColor, borderRadius: 1000 }} onPress={() => {
+                        if (fill + 100 / denominator < 99)
+                            setFill(fill + 100 / denominator);
                         else {
-                            setFill(fill + 100/denominator);
+                            setFill(fill + 100 / denominator);
                             setTimeout(() => {
                                 setFill(0);
-                            },400);
+                            }, 400);
                         }
                     }}>
                         <AnimatedCircularProgress
-                            size={120}
-                            width={16}
-                            backgroundWidth={6}
-                            lineCap={"round"}
+                            size={127}
+                            width={17}
+                            backgroundWidth={17}
+                            lineCap={Platform.OS === "ios" ? "round" : "butt"}
                             fill={fill}
-                            arcSweepAngle={240}
-                            rotation={240}
-                            style={{ marginTop: 20, marginRight:10 }}
-                            tintColor="green"
-                            backgroundColor="darkgrey">
-                            { (fill) => ( <Text style={{fontSize:14}}> {Math.round(fill/100*denominator)}/{denominator} </Text> ) }
+                            // arcSweepAngle={240}
+                            // rotation={240}
+                            style={{ margin: 0, borderWidth: 4, borderColor: "white", borderRadius: 1000 }}
+                            tintColor={circularProgressColors[0]}
+                            backgroundColor={circularProgressColors[1]}>
+                            {(progressFill) => (
+                                <View
+                                    style={[{
+                                        width: "100%",
+                                        height: "100%",
+                                        borderWidth: 4,
+                                        borderColor: "white",
+                                        borderRadius: 1000,
+                                        alignItems: "center",
+                                        justifyContent: "center"
+                                    }]}>
+                                    <Text style={{
+                                        fontSize: 19,
+                                        fontWeight: "bold",
+                                        color:textColor
+                                    }}>
+                                        {Math.round(progressFill / 100 * denominator)}/{denominator}
+                                    </Text>
+                                </View>)}
                         </AnimatedCircularProgress>
                     </TouchableOpacity>
                 </Col>
@@ -65,7 +90,7 @@ const styles = StyleSheet.create({
     container: {
         width: "95%",
         height: 130,
-        borderWidth: 1,
+        borderWidth: 3,
         borderRadius: 20,
         margin: 5
     },
@@ -86,31 +111,6 @@ const styles = StyleSheet.create({
         textAlign: "center",
         fontSize: height * 0.02,
         color: "slategrey"
-    },
-    question: {
-        // marginTop: height * 0.13,
-        // flex: 1,
-        width: "90%",
-        textAlign: "center",
-        fontSize: height * 0.035,
-        color: "#333333"
-    },
-    btnGroup: {
-        // borderWidth:1,
-        height: height * 0.6,
-        justifyContent: "center"
-    },
-    btn: {
-        margin: 7,
-        // width: width * 0.7,
-        height: height * 0.1
-    },
-    btnTxt: {
-        fontSize: height * 0.025
-    },
-    btnIn: {
-        // width: width * 0.7,
-        height: height * 0.1
     }
 });
 

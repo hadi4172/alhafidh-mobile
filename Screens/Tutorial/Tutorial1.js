@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Grid, Row } from '../../ImportIndex';
-
+import TodoRectangle from "../../Components/TodoRectangle";
 const { width, height } = Dimensions.get('window');
 
 function T1Screen(props) {
@@ -16,8 +16,10 @@ function T1Screen(props) {
                 <Text style={[styles.question]}>Chaque jour, vous aurez une partie à apprendre/réviser que vous cocherez quand vous aurez terminé .</Text>
             </Row>
             <Row size={60} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
+                <TodoRectangle isRevision={true} />
+                <TodoRectangle isRevision={false} />
             </Row>
-            <Row size={30} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
+            <Row size={20} style={[styles.centerContentX, styles.showBorder]}>
                 <Button style={styles.btn}
                     contentStyle={styles.btnIn}
                     theme={{ roundness: 115 }}
@@ -30,7 +32,7 @@ function T1Screen(props) {
                     }
                     }>
                     Suivant
-                    </Button>
+                </Button>
             </Row>
         </Grid>
     );
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         width: "90%",
         textAlign: "center",
-        fontSize: height * 0.035,
+        fontSize: 20,
         color: "#333333"
     },
     btnGroup: {

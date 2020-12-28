@@ -2,11 +2,19 @@ import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { Button, Title } from 'react-native-paper';
 import { Grid, Row } from '../../ImportIndex';
+import PartStatus from '../../Components/PartStatus';
 
 const { width, height } = Dimensions.get('window');
 
 function T3Screen(props) {
     let { navigation, scroll } = props;
+
+    const showPartStatus = () => {
+        let components = [];
+        for (let i = 0; i < 3; i++) components.push(<PartStatus key={i.toString()} />)
+        return components
+    }
+
     return (
         <Grid>
             <Row size={10} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
@@ -20,7 +28,9 @@ function T3Screen(props) {
                   </Text>
             </Row>
             <Row size={30} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
-
+            <View style={[styles.rowDirection]}>
+                    {showPartStatus()}
+                </View>
             </Row>
             <Row size={20} style={[styles.centerContentX, styles.showBorder]}>
                 <Button style={styles.btn}
@@ -73,7 +83,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         width: "90%",
         textAlign: "center",
-        fontSize: 19,
+        fontSize: 18,
         color: "#333333"
     },
     btnGroup: {

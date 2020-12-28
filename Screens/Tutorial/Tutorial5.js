@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Grid, Row } from '../../ImportIndex';
+import OverviewBar from '../../Components/OverviewBar';
 
 const { width, height } = Dimensions.get('window');
 
@@ -9,15 +10,15 @@ function T5Screen(props) {
     let { navigation, scroll } = props;
     return (
         <Grid>
-            <Row size={15} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
+            <Row size={10} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
             </Row>
             <Row size={50} style={[styles.centerContentX, styles.showBorder]}>
                 <Text style={[styles.question]}>Vous avez également une barre vous informant du temps restant pour terminer
-                les parties que vous avez choisi(e) d’apprendre. Quand vous ne mémorisez pas votre partie, le temps restant est mis à jour.
+                les parties que vous avez choisi(e) d’apprendre. Le temps restant est mis à jour quand vous ne mémorisez pas votre partie.
                   </Text>
             </Row>
-            <Row size={30} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
-
+            <Row size={30} style={[styles.centerContentX, styles.showBorder]}>
+                <OverviewBar />
             </Row>
             <Row size={20} style={[styles.centerContentX, styles.showBorder]}>
                 <Button style={styles.btn}

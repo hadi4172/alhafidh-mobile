@@ -2,20 +2,37 @@ import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Grid, Row } from '../../ImportIndex';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+
+import MushafDrawerContent from "../Other/MushafDrawerContent";
 
 const { width, height } = Dimensions.get('window');
 
 function MushafScreen(props) {
     let { navigation } = props;
-    return (
-        <Grid>
-            <Row size={5}>
 
-            </Row>
-            <Row size={75} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
-                <Text style={[styles.question]}>Écran Mus'haf</Text>
-            </Row>
-        </Grid>
+    const Drawer = createDrawerNavigator();
+
+    return (
+        <NavigationContainer independent={true} >
+            <Drawer.Navigator 
+            initialRouteName="Mushaf" 
+            drawerContent={props => <MushafDrawerContent {...props} />}
+            drawerStyle={{ backgroundColor: "forestgreen" }}
+            >
+                <Drawer.Screen name="Mushaf" children={() => (
+                    <Grid>
+                        <Row size={5}>
+
+                        </Row>
+                        <Row size={75} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
+                            <Text style={[styles.question]}>Écran Mus'haf</Text>
+                        </Row>
+                    </Grid>
+                )} />
+            </Drawer.Navigator>
+        </NavigationContainer>
     );
 }
 
