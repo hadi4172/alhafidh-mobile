@@ -3,31 +3,57 @@ import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { ProgressBar, Title } from 'react-native-paper';
 import { Avatar } from 'react-native-elements';
 import { Grid, Row, Col } from '../ImportIndex';
+import { useSelector } from 'react-redux';
+import moment from "moment";
+import 'moment-precise-range-plugin';
+
 
 const { width, height } = Dimensions.get('window');
 
 function OverviewBar(props) {
-    let { } = props;
+    let { name, remainingTimeTillFinishString, toMemorizeGoalString, pictureSource, percentageFinished, automatic } = props;
+
+    let initialDate = (new Date()).setHours(0, 0, 0, 0);
+    let finishDaysRemaining = useSelector(state => state.finishTimeRemaining.value);
+    let stringDiffTillFinish = moment.preciseDiff(initialDate, moment(initialDate).add(finishDaysRemaining, "days"));
+
+    // console.log(`finishTimestampRemaining:`,finishTimestampRemaining);
+
+    let imageDefined = true;//typeof pictureSource !== 'undefined';
+    let imagePath = "../assets/Quran1.png" ; //pictureSource;  //TODO Regler problème require
+
+    let autoName = useSelector(state => state.profileName.value);
+    let autoPercentage = useSelector(state => state.percentageFinished.value);
+
+    if(automatic){
+        if(typeof name === "undefined") name = autoName
+        if(typeof remainingTimeTillFinishString === "undefined") remainingTimeTillFinishString = stringDiffTillFinish;
+        if(typeof toMemorizeGoalString === "undefined") toMemorizeGoalString = "Tout le Coran";         //TODO Déduire le string a partir des données state.toMemorize.value
+        if(typeof percentageFinished === "undefined") percentageFinished = autoPercentage
+    }
+    
+
     return (
-        <View style={[styles.container,styles.showBorder]}>
+        <View style={[styles.container, styles.showBorder]}>
             <Grid>
                 <Row size={85}>
-                    <Col style={[{width:95}]} >
+                    <Col style={[{ width: 95 }]} >
                         <Avatar rounded
                             size={80}
-                            icon={{ name: 'user', type: 'font-awesome-5', color:"gainsboro"}}
-                            overlayContainerStyle={{ backgroundColor: 'darkslategrey', opacity: 0.7 }}
-                            containerStyle={{marginLeft: 5, marginTop: 5}}
+                            icon={{ name: 'user', type: 'font-awesome-5', color: imageDefined ? "transparent" : "gainsboro" }}
+                            source={imageDefined ? require(imagePath) : undefined}
+                            overlayContainerStyle={{ backgroundColor: imageDefined ? "transparent" : 'darkslategrey', opacity: 0.7 }}
+                            containerStyle={{ marginLeft: 5, marginTop: 5 }}
                         />
                     </Col>
                     <Col>
-                        <Title numberOfLines={1}>Ahmad Abdullah</Title>
-                        <Text style={[styles.text]}>Tout le Coran</Text>
-                        <Text style={[styles.text]}>Temps restant : 2 ans, 4 mois et 12 jours</Text>
+                        <Title numberOfLines={1}>{name}</Title>
+                        <Text style={[styles.text]}>{toMemorizeGoalString}</Text>
+                        <Text style={[styles.text]}>Temps restant : {remainingTimeTillFinishString}</Text>
                     </Col>
                 </Row>
                 <Row style={[{ flexDirection: "column" }]} size={15}>
-                    <ProgressBar progress={0.75} color={"orange"} style={styles.progressBar} />
+                    <ProgressBar progress={percentageFinished/100} color={"orange"} style={styles.progressBar} />
                 </Row>
             </Grid>
         </View >
@@ -41,8 +67,8 @@ const styles = StyleSheet.create({
         // borderWidth: 1,
         // margin: 1
     },
-    text:{
-        fontSize:12
+    text: {
+        fontSize: 12
     },
     container: {
         width: "97%",
@@ -57,7 +83,7 @@ const styles = StyleSheet.create({
         borderColor: "#cc8500",
         backgroundColor: "floralwhite",
         height: 8,
-        borderRadius:20
+        borderRadius: 20
     },
     centerContentY: {
         justifyContent: "center"

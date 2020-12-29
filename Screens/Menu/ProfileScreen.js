@@ -52,7 +52,7 @@ function ProfileScreen(props) {
         title: "Paramètres",
         icon: "sliders-h",
         ...iconProperties,
-        action: () => { }
+        action: () => { navigation.navigate("I1"); }
     }];
 
     const renderList = () => {
@@ -74,7 +74,7 @@ function ProfileScreen(props) {
             <Row size={5}></Row>
             
             <Row size={95} style={[styles.centerContentX]}>
-                <OverviewBar />
+                <OverviewBar automatic percentageFinished={70}/>
                <View style={{width:"100%", height:"90%"}}>
                     <ScrollView>
                         {renderList()}

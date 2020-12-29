@@ -16,8 +16,8 @@ function T1Screen(props) {
                 <Text style={[styles.question]}>Chaque jour, vous aurez une partie à apprendre/réviser que vous cocherez quand vous aurez terminé .</Text>
             </Row>
             <Row size={60} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
-                <TodoRectangle isRevision={true} />
-                <TodoRectangle isRevision={false} />
+                <TodoRectangle isRevision={true} type={"juz'"} value={[25]} />
+                <TodoRectangle isRevision={false} type={"line"} value={[403,1,13]} />
             </Row>
             <Row size={20} style={[styles.centerContentX, styles.showBorder]}>
                 <Button style={styles.btn}

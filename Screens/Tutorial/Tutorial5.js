@@ -3,11 +3,20 @@ import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Grid, Row } from '../../ImportIndex';
 import OverviewBar from '../../Components/OverviewBar';
+import moment from "moment";
+import 'moment-precise-range-plugin';
 
 const { width, height } = Dimensions.get('window');
 
 function T5Screen(props) {
     let { navigation, scroll } = props;
+
+    const randomRange = (min, max) => {
+        return ~~(Math.random() * (max - min + 1)) + min;
+    }
+    let initialDate = (new Date()).setHours(0, 0, 0, 0);
+    let stringDiffTillFinish = moment.preciseDiff(initialDate, moment(initialDate).add(randomRange(365,365*8), "days"));
+
     return (
         <Grid>
             <Row size={10} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
@@ -18,7 +27,11 @@ function T5Screen(props) {
                   </Text>
             </Row>
             <Row size={30} style={[styles.centerContentX, styles.showBorder]}>
-                <OverviewBar />
+                <OverviewBar automatic
+                name={"Ahmad Abdullah"}
+                remainingTimeTillFinishString={stringDiffTillFinish}
+                percentageFinished={12}
+                />
             </Row>
             <Row size={20} style={[styles.centerContentX, styles.showBorder]}>
                 <Button style={styles.btn}

@@ -11,7 +11,14 @@ function T4Screen(props) {
 
     const showPartStatus = () => {
         let components = [];
-        for (let i = 0; i < 3; i++) components.push(<PartStatus key={i.toString()} />)
+        for (let i = 0; i < 3; i++) components.push(
+            <PartStatus
+                key={i.toString()}
+                title={`Juz' ${[21, 22, 23][i]}`}
+                principalNumerator={[2, 2, 11][i]}
+                principalDenominator={[3, 7, 15][i]}
+                secondaryNumerator={[15, 28, 30][i]}
+            />)
         return components
     }
 

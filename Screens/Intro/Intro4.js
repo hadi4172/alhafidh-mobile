@@ -13,12 +13,12 @@ const { width, height } = Dimensions.get('window');
 
 function I4Screen(props) {
     let { navigation } = props,
-        daysToFinish = useSelector(state => state.finishDate.value),
+        daysToFinish = useSelector(state => state.finishTimeRemaining.value),
         memorized = useSelector(state => state.memorized.value)[2].length,
         toMemorize = useSelector(state => state.toMemorize.value)[2].length,
         hifdhInformator = new HifdhInformator(toMemorize, daysToFinish, memorized),
         today = (new Date()).setHours(0, 0, 0, 0),
-        displayedDate = moment.preciseDiff(today, moment(today).add(daysToFinish, "days")).replace(/[0-9]{0,2} hour.*/ig, ''),
+        displayedDate = moment.preciseDiff(today, moment(today).add(daysToFinish, "days")),
         numberOfBoxes = daysToFinish > 365 ? 8 : 4,
         isLongPeriod = daysToFinish > (20 * numberOfBoxes);
 

@@ -6,7 +6,7 @@ import { AnimatedCircularProgress } from 'react-native-circular-progress';
 const { width, height } = Dimensions.get('window');
 
 function TodoRectangle(props) {
-    let { isRevision } = props;
+    let { isRevision, type, value } = props;
 
     const [fill, setFill] = useState(0);
 
@@ -17,6 +17,28 @@ function TodoRectangle(props) {
     let circularProgressColors = isRevision ? ["#0173B1", "#b3e4ff"] : ["lightseagreen", "#ccffcc"];
     let denominator = 8;
 
+    let firstLineString,
+        secondLineString = "";
+
+    switch (type) {
+        case "juz'":
+            denominator = value.length;
+            firstLineString = `Juz'${denominator>1?"s":""} ${value.join(", ")}`;
+            break;
+        case "page":
+            denominator = value.length;
+            firstLineString = `Page${denominator>1?"s":""} ${value.join(", ")}`;
+            break;
+        case "line":
+            denominator = value[2]-value[1]+1;
+            firstLineString = `Page ${value[0]}`;
+            secondLineString = `Line${denominator>1?`s ${value[1]}-${value[2]}`:`${value[1]}`}`
+            break;
+
+        default:
+            break;
+    }
+
     return (
         <View style={[{ backgroundColor: color, borderColor: borderColor }, styles.container]}>
             <Grid style={[styles.showBorder]}>
@@ -25,9 +47,9 @@ function TodoRectangle(props) {
                         if (Math.round(fill - 100 / denominator) >= 0)
                             setFill(fill - 100 / denominator);
                     }}>
-                        <Text style={[{ fontSize: 21, fontWeight: "bold", marginBottom: 3, color:textColor }]}>{title}</Text>
-                        <Text style={{ fontSize: 16, color:textColor }}>Page {Math.round(Math.random() * 600)}</Text>
-                        <Text style={{ fontSize: 16, color:textColor }}>Ligne 5-15</Text>
+                        <Text style={[{ fontSize: 21, fontWeight: "bold", marginBottom: 3, color: textColor }]}>{title}</Text>
+                        <Text style={{ fontSize: 16, color: textColor }}>{firstLineString}</Text>
+                        <Text style={{ fontSize: 16, color: textColor }}>{secondLineString}</Text>
                     </TouchableOpacity>
                 </Col>
 
@@ -67,7 +89,7 @@ function TodoRectangle(props) {
                                     <Text style={{
                                         fontSize: 19,
                                         fontWeight: "bold",
-                                        color:textColor
+                                        color: textColor
                                     }}>
                                         {Math.round(progressFill / 100 * denominator)}/{denominator}
                                     </Text>

@@ -1,12 +1,17 @@
 import React from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { Button } from 'react-native-paper';
+import { useDispatch } from 'react-redux';
+
 import { Grid, Row } from '../../ImportIndex';
+
 
 const { width, height } = Dimensions.get('window');
 
 function T6Screen(props) {
     let { navigation, scroll } = props;
+    let dispatch = useDispatch();
+
     return (
         <Grid>
             <Row size={5}>
@@ -25,6 +30,7 @@ function T6Screen(props) {
                     // mode="contained"
                     onPress={() => {
                         navigation.navigate('Menu');
+                        dispatch({ type: `firstStart/set`, payload: false });
                     }
                     }>
                     Commencer

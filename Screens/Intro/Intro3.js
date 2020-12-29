@@ -25,14 +25,14 @@ function I3Screen({ navigation }) {
     };
 
     const handleConfirm = (date) => {
-        if (date.getTime() < (+initialDate + 1000 * 60 * 60 * 24 * 3.9)) {         //fix a IOS bug
-            date = new Date(+initialDate + 1000 * 60 * 60 * 24 * 4)
+        if (date.getTime() < (+initialDate + 1000 * 60 * 60 * 24 * 1)) {         //fix a IOS bug
+            date = new Date(+initialDate + 1000 * 60 * 60 * 24 * 30)
         }
+        date.setHours(0, 0, 0, 0);
 
         setSelectedDate(date);
-        setDisplayedDate("in " + moment.preciseDiff(initialDate, date.getTime()).replace(/[0-9]{0,2} hour.*/ig, ''));
-        dispatch({ type: `finishDate/set`, payload: (+date - initialDate) / (1000 * 60 * 60 * 24) });
-        // console.log(`date:`, Math.round((+date - initialDate) / (1000 * 60 * 60 * 24)));
+        setDisplayedDate("in " + moment.preciseDiff(initialDate, date.getTime()));
+        dispatch({ type: `finishTimeRemaining/set`, payload: (+date - initialDate) / (1000 * 60 * 60 * 24) });
         if (!showContinue) setShowContinue(true);
         hideDatePicker();
     };

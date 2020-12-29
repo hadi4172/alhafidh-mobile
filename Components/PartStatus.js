@@ -5,19 +5,22 @@ import { ProgressBar } from 'react-native-paper';
 const { width, height } = Dimensions.get('window');
 
 function PartStatus(props) {
-    let { } = props;
+    let { title, principalNumerator, principalDenominator, secondaryNumerator } = props;
+
+    let isQadim = secondaryNumerator === 30;
+
     return (
         <View style={[styles.showBorder, styles.container, styles.centerContentX]}>
-            <Text style={[styles.text]}>Juz' 21</Text>
+            <Text style={[styles.text]}>{title}</Text>
 
             <View style={[styles.progressBarContainer, styles.centerContentX, styles.centerContentY]}>
-                <ProgressBar width={"90%"} progress={Math.random()} color={"#3CB371"} style={styles.stateBar} />
-                <Text style={[styles.progressBarInnerText]}>2/3</Text>
+                <ProgressBar width={"90%"} progress={principalNumerator / principalDenominator} color={"#3CB371"} style={styles.stateBar} />
+                <Text style={[styles.progressBarInnerText]}>{principalNumerator}/{principalDenominator}</Text>
             </View>
 
             <View style={[styles.progressBarContainer, styles.centerContentX, styles.centerContentY]}>
-                <ProgressBar width={"90%"} progress={Math.random()} color={"#4169E1"} style={styles.progressionBar} />
-                <Text style={[styles.progressBarInnerText]}>15/30</Text>
+                <ProgressBar width={"90%"} progress={secondaryNumerator / 30} color={isQadim ? "chocolate" : "#4169E1"} style={[styles.progressionBar]} />
+                <Text style={[styles.progressBarInnerText]}>{`${isQadim ? "Qadim" : `${secondaryNumerator}/30`}`}</Text>
             </View>
         </View >
     );
@@ -38,8 +41,8 @@ const styles = StyleSheet.create({
         color: "black",
         fontSize: 12,
         textShadowColor: "white",
-        textShadowOffset:{width: 1, height: -1},
-        textShadowRadius:5,
+        textShadowOffset: { width: 1, height: -1 },
+        textShadowRadius: 5,
     },
     progressBarContainer: {
         width: "100%",

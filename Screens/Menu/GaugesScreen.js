@@ -12,8 +12,36 @@ function GaugeScreen(props) {
     let { navigation } = props;
 
     const showPartStatus = () => {
+        const randomRange = (min, max) => {
+            return ~~(Math.random() * (max - min + 1)) + min;
+        }
+
         let components = [];
-        for (let i = 0; i < 14; i++) components.push(<PartStatus key={i.toString()} />)
+        for (let i = 0; i < 30; i++) {
+            let secondaryNumerator = randomRange(1, 30);
+            let principalDenominator = secondaryNumerator === 30 ? 15 : randomRange(2, 7);
+            let principalNumerator = randomRange(0, principalDenominator);
+
+            if (principalNumerator === 0) {
+                if (secondaryNumerator === 30) {
+                    secondaryNumerator = 20;
+                    principalDenominator = 7;
+                    principalNumerator = 3;
+                } else {
+                    if (secondaryNumerator > 10) secondaryNumerator -= 10;
+                    else secondaryNumerator = 0
+                }
+            }
+            components.push(
+                <PartStatus
+                    key={i.toString()}
+                    title={`Juz' ${i + 1}`}
+                    principalNumerator={principalNumerator}
+                    principalDenominator={principalDenominator}
+                    secondaryNumerator={secondaryNumerator}
+                />
+            )
+        }
         return components
     }
 
@@ -23,7 +51,7 @@ function GaugeScreen(props) {
 
             </Row>
             <Row size={95} style={[styles.centerContentX]}>
-                <OverviewBar />
+                <OverviewBar automatic percentageFinished={70} />
                 <ScrollView>
                     <View style={[styles.jaugesScrollView, styles.rowDirection, styles.showBorder]}>
                         {showPartStatus()}
@@ -45,9 +73,9 @@ const styles = StyleSheet.create({
     container: {
     },
     jaugesScrollView: {
-        width: "100%", 
-        flexWrap: 'wrap', 
-        justifyContent: "center", 
+        width: "100%",
+        flexWrap: 'wrap',
+        justifyContent: "center",
         marginTop: 10
     },
     centerContentX: {

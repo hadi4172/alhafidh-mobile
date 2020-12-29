@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { View, StyleSheet, Dimensions, useWindowDimensions, Text } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { View, StyleSheet, Dimensions, Text } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-paper';
 import { Grid, Row } from '../../ImportIndex';
 
@@ -9,8 +9,8 @@ let { width, height } = Dimensions.get('window');
 
 function I5Screen({ navigation }) {
     let dispatch = useDispatch();
-    [width, height] = [useWindowDimensions().width, useWindowDimensions().height];
 
+    let isFirstStart = useSelector(state => state.firstStart.value);
 
     return (
         <Grid>
@@ -32,7 +32,8 @@ function I5Screen({ navigation }) {
                     mode="contained"
                     onPress={() => {
                         dispatch({ type: `order/set`, payload: true });
-                        navigation.navigate('T0');
+                        if (isFirstStart) navigation.navigate('T0');
+                        else navigation.navigate("Menu");
                     }
                     }>
                     Ordre du Mushaf
@@ -46,7 +47,8 @@ function I5Screen({ navigation }) {
                     mode="contained"
                     onPress={() => {
                         dispatch({ type: `order/set`, payload: false });
-                        navigation.navigate('T0');
+                        if (isFirstStart) navigation.navigate('T0');
+                        else navigation.navigate("Menu");
                     }
                     }>
                     Ordre inverse du Mushaf
@@ -58,10 +60,10 @@ function I5Screen({ navigation }) {
 
 const styles = StyleSheet.create({
     showBorder: {
-        borderColor: 'black',
-        borderStyle: 'dotted',
-        borderWidth: 1,
-        margin: 1
+        // borderColor: 'black',
+        // borderStyle: 'dotted',
+        // borderWidth: 1,
+        // margin: 1
     },
     container: {
     },

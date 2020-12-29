@@ -17,11 +17,12 @@ function TodoScreen(props) {
 
             </Row>
             <Row size={95} style={[styles.centerContentX]}>
-                <OverviewBar />
+                <OverviewBar automatic percentageFinished={70}/>
                 <ScrollView style={[{width:"100%"}]}>
                     <View style={[{ width: "100%", alignItems: "center", marginTop: 10 }, styles.showBorder]}>
-                        <TodoRectangle isRevision={true}/>
-                        <TodoRectangle isRevision={false}/>
+                        <TodoRectangle isRevision={true} type={"juz'"} value={[25]}/>
+                        <TodoRectangle isRevision={false} type={"page"} value={[400,401,402]}/>
+                        <TodoRectangle isRevision={false} type={"line"} value={[403,1,7]}/>
                     </View>
                 </ScrollView>
             </Row>

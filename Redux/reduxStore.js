@@ -1,14 +1,36 @@
 // import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit';
-import { familiarReducer, toMemorizeReducer, memorizedReducer, finishDateReducer, orderReducer } from "./slices"
+import {
+    familiarReducer,
+    toMemorizeReducer,
+    memorizedReducer,
+
+    finishTimeRemainingReducer,
+    percentageFinishedReducer,
+
+    profileNameReducer,
+    profilePictureReducer,
+
+    orderReducer,
+
+    firstStartReducer
+} from "./slices"
 
 const store = configureStore({
     reducer: {
         memorized: memorizedReducer,
         familiar: familiarReducer,
         toMemorize: toMemorizeReducer,
-        finishDate: finishDateReducer,
-        order: orderReducer
+
+        finishTimeRemaining: finishTimeRemainingReducer,
+        percentageFinished: percentageFinishedReducer,
+
+        profileName: profileNameReducer,
+        profilePicture: profilePictureReducer,
+
+        order: orderReducer,
+
+        firstStart: firstStartReducer
     }
 });
 

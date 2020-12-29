@@ -11,7 +11,14 @@ function T3Screen(props) {
 
     const showPartStatus = () => {
         let components = [];
-        for (let i = 0; i < 3; i++) components.push(<PartStatus key={i.toString()} />)
+        for (let i = 0; i < 3; i++) components.push(
+            <PartStatus
+                key={i.toString()}
+                title={`Juz' ${[21, 22, 23][i]}`}
+                principalNumerator={[2, 2, 11][i]}
+                principalDenominator={[3, 7, 15][i]}
+                secondaryNumerator={[15, 28, 30][i]}
+            />)
         return components
     }
 
@@ -21,14 +28,14 @@ function T3Screen(props) {
             </Row>
             <Row size={50} style={[styles.centerContentX, styles.showBorder]}>
                 <Title style={{ fontSize: 23 }}>Jauges</Title>
-                <Text style={{fontSize:10}}></Text>
+                <Text style={{ fontSize: 10 }}></Text>
                 <Text style={[styles.question]}>Chaque partie mémorisée aura une jauge verte vous indiquant sont état.
                 Au tout début, la jauge verte a 2 points max. Quand l’utilisateur ne révise pas ce qu’il a à réviser,
                 la jauge perds 1 point. S’il révise, la jauge récupère 0.5 points. Chaque 5 jours, la jauge ajoute 1 point max.
                   </Text>
             </Row>
             <Row size={30} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
-            <View style={[styles.rowDirection]}>
+                <View style={[styles.rowDirection]}>
                     {showPartStatus()}
                 </View>
             </Row>
