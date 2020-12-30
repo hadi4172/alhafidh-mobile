@@ -11,6 +11,7 @@ function I5Screen({ navigation }) {
     let dispatch = useDispatch();
 
     let isFirstStart = useSelector(state => state.firstStart.value);
+    let isNormalOrder = useSelector(state => state.order.value);
 
     return (
         <Grid>
@@ -19,11 +20,11 @@ function I5Screen({ navigation }) {
                     Vous pourrez modifier ces paramètres plus tard
                 </Text>
             </Row>
-            <Row size={55} style={[styles.centerContentX, styles.centerContentY, styles.showBorder, { flexDirection: "column" }]}>
+            <Row size={40} style={[styles.centerContentX, styles.centerContentY, styles.showBorder, { flexDirection: "column" }]}>
                 <Text style={[styles.question]}>Dans quel ordre souhaitez vous mémoriser ?</Text>
             </Row>
-            <Row size={45} style={[styles.centerContentX, styles.centerContentY, styles.showBorder, { flexDirection: "column" }]}>
-                <Button style={styles.btn}
+            <Row size={60} style={[styles.centerContentX, styles.centerContentY, styles.showBorder, { flexDirection: "column" }]}>
+                <Button style={[styles.btn, !isFirstStart ? { opacity: isNormalOrder ? 1 : 0.4 } : {}]}
                     contentStyle={styles.btnIn}
                     theme={{ roundness: 115 }}
                     color="green"
@@ -38,7 +39,7 @@ function I5Screen({ navigation }) {
                     }>
                     Ordre du Mushaf
                     </Button>
-                <Button style={styles.btn}
+                <Button style={[styles.btn, !isFirstStart ? { opacity: !isNormalOrder ? 1 : 0.4 } : {}]}
                     contentStyle={styles.btnIn}
                     theme={{ roundness: 115 }}
                     color="green"
@@ -53,6 +54,21 @@ function I5Screen({ navigation }) {
                     }>
                     Ordre inverse du Mushaf
                     </Button>
+                {!isFirstStart && (
+                    <Button style={[styles.btn]}
+                        contentStyle={styles.btnIn}
+                        theme={{ roundness: 115 }}
+                        color="green"
+                        labelStyle={styles.btnTxt}
+                        uppercase={false}
+                        // mode="contained"
+                        onPress={() => {
+                            navigation.navigate('Menu');
+                        }
+                        }>
+                        Suivant
+                    </Button>
+                )}
             </Row>
         </Grid>
     );
@@ -60,10 +76,10 @@ function I5Screen({ navigation }) {
 
 const styles = StyleSheet.create({
     showBorder: {
-        // borderColor: 'black',
-        // borderStyle: 'dotted',
-        // borderWidth: 1,
-        // margin: 1
+        borderColor: 'black',
+        borderStyle: 'dotted',
+        borderWidth: 1,
+        margin: 1
     },
     container: {
     },

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, Dimensions, Text, Platform } from 'react-native';
 import { Grid, Row, Col } from '../ImportIndex';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
+import { Icon } from 'react-native-elements'
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,7 +16,9 @@ function TodoRectangle(props) {
     let textColor = isRevision ? "white" : "#004d00";
     let title = isRevision ? "Révision" : "Mémorisation";
     let circularProgressColors = isRevision ? ["#0173B1", "#b3e4ff"] : ["lightseagreen", "#ccffcc"];
-    let denominator = 8;
+    let denominator;
+
+    let isFull = Math.round(fill) === 100;
 
     let firstLineString,
         secondLineString = "";
@@ -23,16 +26,16 @@ function TodoRectangle(props) {
     switch (type) {
         case "juz'":
             denominator = value.length;
-            firstLineString = `Juz'${denominator>1?"s":""} ${value.join(", ")}`;
+            firstLineString = `Juz'${denominator > 1 ? "s" : ""} ${value.join(", ")}`;
             break;
         case "page":
             denominator = value.length;
-            firstLineString = `Page${denominator>1?"s":""} ${value.join(", ")}`;
+            firstLineString = `Page${denominator > 1 ? "s" : ""} ${value.join(", ")}`;
             break;
         case "line":
-            denominator = value[2]-value[1]+1;
+            denominator = value[2] - value[1] + 1;
             firstLineString = `Page ${value[0]}`;
-            secondLineString = `Line${denominator>1?`s ${value[1]}-${value[2]}`:`${value[1]}`}`
+            secondLineString = `Line${denominator > 1 ? `s ${value[1]}-${value[2]}` : `${value[1]}`}`;
             break;
 
         default:
@@ -40,7 +43,7 @@ function TodoRectangle(props) {
     }
 
     return (
-        <View style={[{ backgroundColor: color, borderColor: borderColor }, styles.container]}>
+        <View style={[{ backgroundColor: color, borderColor: borderColor, opacity: isFull ? 0.3 : 1 }, styles.container]}>
             <Grid style={[styles.showBorder]}>
                 <Col style={[styles.showBorder, { paddingLeft: 10, paddingTop: 7 }]}>
                     <TouchableOpacity style={{ height: "100%" }} onPress={() => {
@@ -55,14 +58,9 @@ function TodoRectangle(props) {
 
                 <Col style={[styles.showBorder, styles.centerContentY, { width: 125, alignItems: "center" }]}>
                     <TouchableOpacity style={{ borderWidth: 2, borderColor: borderColor, borderRadius: 1000 }} onPress={() => {
-                        if (fill + 100 / denominator < 99)
+                        if (Math.round(fill + 100 / denominator) <= 100)
                             setFill(fill + 100 / denominator);
-                        else {
-                            setFill(fill + 100 / denominator);
-                            setTimeout(() => {
-                                setFill(0);
-                            }, 400);
-                        }
+
                     }}>
                         <AnimatedCircularProgress
                             size={127}
@@ -86,14 +84,29 @@ function TodoRectangle(props) {
                                         alignItems: "center",
                                         justifyContent: "center"
                                     }]}>
-                                    <Text style={{
-                                        fontSize: 19,
-                                        fontWeight: "bold",
-                                        color: textColor
-                                    }}>
-                                        {Math.round(progressFill / 100 * denominator)}/{denominator}
-                                    </Text>
-                                </View>)}
+                                    {
+                                        isFull ?
+                                            (
+                                                <Icon
+                                                    name='check'
+                                                    type='font-awesome-5'
+                                                    color={textColor}
+                                                    size={30}
+                                                />
+                                            ) :
+                                            (
+                                                <Text style={{
+                                                    fontSize: 19,
+                                                    fontWeight: "bold",
+                                                    color: textColor
+                                                }}>
+                                                    {Math.round(progressFill / 100 * denominator)}/{denominator}
+                                                </Text>
+                                            )
+                                    }
+                                </View>
+                            )
+                            }
                         </AnimatedCircularProgress>
                     </TouchableOpacity>
                 </Col>

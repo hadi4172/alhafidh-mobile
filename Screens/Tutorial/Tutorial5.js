@@ -11,11 +11,11 @@ const { width, height } = Dimensions.get('window');
 function T5Screen(props) {
     let { navigation, scroll } = props;
 
-    const randomRange = (min, max) => {
-        return ~~(Math.random() * (max - min + 1)) + min;
-    }
+    // const randomRange = (min, max) => {
+    //     return ~~(Math.random() * (max - min + 1)) + min;
+    // }
     let initialDate = (new Date()).setHours(0, 0, 0, 0);
-    let stringDiffTillFinish = moment.preciseDiff(initialDate, moment(initialDate).add(randomRange(365,365*8), "days"));
+    let stringDiffTillFinish = moment.preciseDiff(initialDate, moment(initialDate).add(794, "days"));
 
     return (
         <Grid>
@@ -29,6 +29,7 @@ function T5Screen(props) {
             <Row size={30} style={[styles.centerContentX, styles.showBorder]}>
                 <OverviewBar automatic
                 name={"Ahmad Abdullah"}
+                pictureSource={"TODO"}
                 remainingTimeTillFinishString={stringDiffTillFinish}
                 percentageFinished={12}
                 />

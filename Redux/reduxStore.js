@@ -4,6 +4,7 @@ import {
     familiarReducer,
     toMemorizeReducer,
     memorizedReducer,
+    toggleAllCheckboxReducer,
 
     finishTimeRemainingReducer,
     percentageFinishedReducer,
@@ -11,6 +12,7 @@ import {
     profileNameReducer,
     profilePictureReducer,
 
+    revisionModeReducer,
     orderReducer,
 
     firstStartReducer
@@ -21,6 +23,7 @@ const store = configureStore({
         memorized: memorizedReducer,
         familiar: familiarReducer,
         toMemorize: toMemorizeReducer,
+        toggleAllCheckbox: toggleAllCheckboxReducer,
 
         finishTimeRemaining: finishTimeRemainingReducer,
         percentageFinished: percentageFinishedReducer,
@@ -28,6 +31,7 @@ const store = configureStore({
         profileName: profileNameReducer,
         profilePicture: profilePictureReducer,
 
+        revisionMode: revisionModeReducer,
         order: orderReducer,
 
         firstStart: firstStartReducer

@@ -12,10 +12,10 @@ function T0Screen(props) {
             <Row size={5}>
 
             </Row>
-            <Row size={75} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
+            <Row size={75} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
                 <Text style={[styles.question]}>Configuration terminée ! Nous allons maintenant vous expliquer le fonctionnement de l’application.</Text>
             </Row>
-            <Row size={25} style={[styles.centerContentX,styles.centerContentY, styles.showBorder]}>
+            <Row size={25} style={[styles.centerContentX, styles.centerContentY, styles.showBorder]}>
                 <Button style={styles.btn}
                     contentStyle={styles.btnIn}
                     theme={{ roundness: 115 }}
@@ -28,7 +28,7 @@ function T0Screen(props) {
                     }
                     }>
                     Suivant
-                    </Button>
+                </Button>
             </Row>
         </Grid>
     );

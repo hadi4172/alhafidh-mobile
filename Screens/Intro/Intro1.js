@@ -1,45 +1,84 @@
 import React from 'react';
 import { Button } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
 import { StyleSheet, View, Image, Dimensions, Text } from 'react-native';
+import { configureRevisionMode, configureNormalMode } from "../../Utils/utils";
 
 const { width, height } = Dimensions.get('window');
 
-function I1Screen({navigation}) {
+function I1Screen({ navigation }) {
+    let dispatch = useDispatch();
+    let isRevisionMode = useSelector(state => state.revisionMode.value);
+    let isFirstStart = useSelector(state => state.firstStart.value);
+
     return (
-        <View style={styles.container} >
-            <Text style={styles.indication}>
+        <View style={[styles.container, styles.showBorder]} >
+            <Text style={[styles.indication]}>
                 Vous pourrez modifier ces paramètres plus tard
             </Text>
             <Text style={styles.question}>
                 Voulez vous utiliser cette application pour apprendre le Coran et le réviser, ou seulement le réviser ?
             </Text>
-            <View style={styles.btnGroup}>
-                <Button style={styles.btn}
+            <View style={[styles.btnGroup, styles.showBorder]}>
+                <Button style={[styles.btn, !isFirstStart ? { opacity: !isRevisionMode ? 1 : 0.4 } : {}]}
                     contentStyle={styles.btnIn}
                     theme={{ roundness: 115 }}
                     color="green"
                     labelStyle={styles.btnTxt}
                     uppercase={false}
                     mode="contained"
-                    onPress={() => navigation.navigate('Mémorisé')}>
+                    onPress={() => {
+                        if (!isFirstStart && isRevisionMode || isFirstStart) {
+                            navigation.navigate('Mémorisé');
+                            dispatch({ type: `revisionMode/set`, payload: false });
+                            configureNormalMode(dispatch);
+                        }
+                    }}>
                     Apprendre et réviser
             </Button>
-                <Button style={styles.btn}
+                <Button style={[styles.btn, !isFirstStart ? { opacity: isRevisionMode ? 1 : 0.4 } : {}]}
                     contentStyle={styles.btnIn}
                     theme={{ roundness: 115 }}
                     color="green"
                     labelStyle={styles.btnTxt}
                     uppercase={false}
                     mode="contained"
-                    onPress={() => navigation.navigate('I0Screen')}>
+                    onPress={() => {
+                        if (!isFirstStart && !isRevisionMode || isFirstStart) {
+                            navigation.navigate('Mémorisé');
+                            dispatch({ type: `revisionMode/set`, payload: true });
+                            configureRevisionMode(dispatch)
+                        }
+                    }}>
                     Seulement réviser
             </Button>
+                {!isFirstStart && (
+                    <Button style={[styles.btn]}
+                        contentStyle={styles.btnIn}
+                        theme={{ roundness: 115 }}
+                        color="green"
+                        labelStyle={styles.btnTxt}
+                        uppercase={false}
+                        // mode="contained"
+                        onPress={() => {
+                            navigation.navigate('Mémorisé');
+                        }
+                        }>
+                        Suivant
+                    </Button>
+                )}
             </View>
         </View >
     );
 }
 
 const styles = StyleSheet.create({
+    showBorder: {
+        // borderColor: 'black',
+        // borderStyle: 'dotted',
+        // borderWidth: 1,
+        // margin: 1
+    },
     container: {
         flex: 1,
         flexDirection: 'column',
@@ -54,7 +93,7 @@ const styles = StyleSheet.create({
         color: "slategrey"
     },
     question: {
-        marginTop: height * 0.13,
+        marginTop: height * 0.16,
         width: width * 0.9,
         textAlign: "center",
         fontSize: height * 0.035,
@@ -67,8 +106,8 @@ const styles = StyleSheet.create({
     },
     btn: {
         marginTop: height * 0.1 / 3,
-        width: width * 0.7,
-        height: height * 0.1
+        height: height * 0.1,
+        width: width * 0.7
     },
     btnTxt: {
         fontSize: height * 0.025

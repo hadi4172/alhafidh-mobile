@@ -19,7 +19,7 @@ function PartStatus(props) {
             </View>
 
             <View style={[styles.progressBarContainer, styles.centerContentX, styles.centerContentY]}>
-                <ProgressBar width={"90%"} progress={secondaryNumerator / 30} color={isQadim ? "chocolate" : "#4169E1"} style={[styles.progressionBar]} />
+                <ProgressBar width={"90%"} progress={secondaryNumerator / 30} color={isQadim ? "#ee7c2b" : "#4169E1"} style={[styles.progressionBar]} />
                 <Text style={[styles.progressBarInnerText]}>{`${isQadim ? "Qadim" : `${secondaryNumerator}/30`}`}</Text>
             </View>
         </View >

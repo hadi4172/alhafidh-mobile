@@ -74,7 +74,7 @@ function ProfileScreen(props) {
             <Row size={5}></Row>
             
             <Row size={95} style={[styles.centerContentX]}>
-                <OverviewBar automatic percentageFinished={70}/>
+                <OverviewBar automatic/>
                <View style={{width:"100%", height:"90%"}}>
                     <ScrollView>
                         {renderList()}

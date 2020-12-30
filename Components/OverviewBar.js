@@ -19,16 +19,17 @@ function OverviewBar(props) {
 
     // console.log(`finishTimestampRemaining:`,finishTimestampRemaining);
 
-    let imageDefined = true;//typeof pictureSource !== 'undefined';
-    let imagePath = "../assets/Quran1.png" ; //pictureSource;  //TODO Regler problème require
+    let imageDefined = typeof pictureSource !== 'undefined';
+    let imagePath = "../assets/Circular1.png" ; //pictureSource;  //TODO Regler problème require
 
     let autoName = useSelector(state => state.profileName.value);
     let autoPercentage = useSelector(state => state.percentageFinished.value);
+    let autoIsRevisionMode = useSelector(state => state.revisionMode.value);
 
     if(automatic){
         if(typeof name === "undefined") name = autoName
         if(typeof remainingTimeTillFinishString === "undefined") remainingTimeTillFinishString = stringDiffTillFinish;
-        if(typeof toMemorizeGoalString === "undefined") toMemorizeGoalString = "Tout le Coran";         //TODO Déduire le string a partir des données state.toMemorize.value
+        if(typeof toMemorizeGoalString === "undefined") toMemorizeGoalString = !autoIsRevisionMode ? "Tout le Coran" : "Révision";         //TODO Déduire le string a partir des données state.toMemorize.value (ex: "342 pages")
         if(typeof percentageFinished === "undefined") percentageFinished = autoPercentage
     }
     
@@ -48,8 +49,8 @@ function OverviewBar(props) {
                     </Col>
                     <Col>
                         <Title numberOfLines={1}>{name}</Title>
-                        <Text style={[styles.text]}>{toMemorizeGoalString}</Text>
-                        <Text style={[styles.text]}>Temps restant : {remainingTimeTillFinishString}</Text>
+                        <Text style={[styles.text]}>Objectif : {toMemorizeGoalString}</Text>
+                        <Text style={[styles.text]}>{!autoIsRevisionMode ?`Temps restant : ${remainingTimeTillFinishString}`:""}</Text>
                     </Col>
                 </Row>
                 <Row style={[{ flexDirection: "column" }]} size={15}>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 import I0Screen from '../Screens/Intro/Intro0';
@@ -7,7 +8,7 @@ import I3Screen from '../Screens/Intro/Intro3';
 import I4Screen from '../Screens/Intro/Intro4';
 import I5Screen from '../Screens/Intro/Intro5';
 import T0Screen from '../Screens/Tutorial/Tutorial0';
-import { Button } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 import PartsTopTabNavigator from './TopTabBar';
 import SwiperMainTutorial from './SwiperMainTutorial';
 import MainTabbar from './MainTabbar';
@@ -15,6 +16,26 @@ import MainTabbar from './MainTabbar';
 const Stack = createStackNavigator();
 
 function InitialConfigurationStack() {
+
+  const checkBoxesScreenHeader = (navigation, nextScreen) => {
+    return {
+      headerShown: true,
+      headerBackTitle: "Retour",
+      headerRight: () => (
+        <TouchableOpacity style={{ height: "100%", justifyContent: "center" }} onPress={() =>
+          navigation.navigate(nextScreen)
+        }>
+          <Text style={{ color: "#007AFF", fontSize: 17 }}>
+            {`Continuer    `}
+          </Text>
+        </TouchableOpacity>
+      ),
+    }
+  }
+
+  let isFirstStart = useSelector(state => state.firstStart.value);
+  let isRevisionMode = useSelector(state => state.revisionMode.value);
+
   return (
     <Stack.Navigator initialRouteName="Menu" screenOptions={{ headerShown: false }}>
       <Stack.Screen
@@ -31,64 +52,19 @@ function InitialConfigurationStack() {
         name="Mémorisé"
         component={PartsTopTabNavigator}
         initialParams={{ screen: "memorized" }}
-        options={({ navigation }) => ({
-          headerShown: true,
-          headerBackTitle: "Retour",
-          headerRight: () => (
-            <Button
-              color="#007AFF"
-              labelStyle={{ fontSize: 17 }}
-              uppercase={false}
-              mode="text"
-              onPress={() =>
-                navigation.navigate('Familier')
-              }>
-              Continuer
-            </Button>
-          ),
-        })} />
+        options={({ navigation }) => (checkBoxesScreenHeader(navigation, !isRevisionMode ? "Familier" : isFirstStart ? "T0" : "Menu"))} />
 
       <Stack.Screen
         name="Familier"
         component={PartsTopTabNavigator}
         initialParams={{ screen: "familiar" }}
-        options={({ navigation }) => ({
-          headerShown: true,
-          headerBackTitle: "Retour",
-          headerRight: () => (
-            <Button
-              color="#007AFF"
-              labelStyle={{ fontSize: 17 }}
-              uppercase={false}
-              mode="text"
-              onPress={() =>
-                navigation.navigate('Objectif')
-              }>
-              Continuer
-            </Button>
-          ),
-        })} />
+        options={({ navigation }) => (checkBoxesScreenHeader(navigation, "Objectif"))} />
 
       <Stack.Screen
         name="Objectif"
         component={PartsTopTabNavigator}
         initialParams={{ screen: "toMemorize" }}
-        options={({ navigation }) => ({
-          headerShown: true,
-          headerBackTitle: "Retour",
-          headerRight: () => (
-            <Button
-              color="#007AFF"
-              labelStyle={{ fontSize: 17 }}
-              uppercase={false}
-              mode="text"
-              onPress={() =>
-                navigation.navigate('I3')
-              }>
-              Continuer
-            </Button>
-          ),
-        })}
+        options={({ navigation }) => (checkBoxesScreenHeader(navigation, "I3"))}
       />
 
       <Stack.Screen
@@ -126,3 +102,12 @@ function InitialConfigurationStack() {
 }
 
 export default InitialConfigurationStack;
+
+const styles = StyleSheet.create({
+  showBorder: {
+    borderColor: 'black',
+    borderStyle: 'dotted',
+    borderWidth: 1,
+    margin: 1
+  }
+});

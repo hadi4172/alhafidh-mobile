@@ -17,7 +17,7 @@ function TodoScreen(props) {
 
             </Row>
             <Row size={95} style={[styles.centerContentX]}>
-                <OverviewBar automatic percentageFinished={70}/>
+                <OverviewBar automatic/>
                 <ScrollView style={[{width:"100%"}]}>
                     <View style={[{ width: "100%", alignItems: "center", marginTop: 10 }, styles.showBorder]}>
                         <TodoRectangle isRevision={true} type={"juz'"} value={[25]}/>

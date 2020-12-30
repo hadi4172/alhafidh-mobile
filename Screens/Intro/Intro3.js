@@ -9,13 +9,17 @@ import { Col, Row, Grid, DateTimePicker } from "../../ImportIndex/index";
 const { width, height } = Dimensions.get('window');
 
 function I3Screen({ navigation }) {
-    let [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    let [displayedDate, setDisplayedDate] = useState("");
-    let [selectedDate, setSelectedDate] = useState(new Date());
-    let [showContinue, setShowContinue] = useState(false);
-    let dispatch = useDispatch();
     let initialDate = (new Date()).setHours(0, 0, 0, 0);
 
+    let savedDaysRemaining = useSelector(state => state.finishTimeRemaining.value);
+    let displayedDateInitialValue = savedDaysRemaining !== 0 ? "in " + moment.preciseDiff(initialDate,  moment(initialDate).add(savedDaysRemaining, "days")) : "";
+
+    let [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+    let [displayedDate, setDisplayedDate] = useState(displayedDateInitialValue);
+    let [selectedDate, setSelectedDate] = useState(new Date());
+    let [showContinue, setShowContinue] = useState(savedDaysRemaining !== 0 ? true : false);
+    let dispatch = useDispatch();
+    
     const showDatePicker = () => {
         setDatePickerVisibility(true);
     };
@@ -75,30 +79,30 @@ function I3Screen({ navigation }) {
                 {showContinue && (
                     <View style={styles.rowDirection}>
                         <Button style={styles.btn}
-                        contentStyle={styles.btnIn}
-                        theme={{ roundness: 115 }}
-                        color="green"
-                        labelStyle={styles.btnTxt}
-                        uppercase={false}
-                        // mode="contained"
-                        onPress={() => {
-                            navigation.navigate('Objectif');
-                        }
-                        }>
-                        Retour
+                            contentStyle={styles.btnIn}
+                            theme={{ roundness: 115 }}
+                            color="green"
+                            labelStyle={styles.btnTxt}
+                            uppercase={false}
+                            // mode="contained"
+                            onPress={() => {
+                                navigation.navigate('Objectif');
+                            }
+                            }>
+                            Retour
                     </Button>
-                    <Button style={styles.btn}
-                        contentStyle={styles.btnIn}
-                        theme={{ roundness: 115 }}
-                        color="green"
-                        labelStyle={styles.btnTxt}
-                        uppercase={false}
-                        // mode="contained"
-                        onPress={() => {
-                            navigation.navigate('I4');
-                        }
-                        }>
-                        Continuer
+                        <Button style={styles.btn}
+                            contentStyle={styles.btnIn}
+                            theme={{ roundness: 115 }}
+                            color="green"
+                            labelStyle={styles.btnTxt}
+                            uppercase={false}
+                            // mode="contained"
+                            onPress={() => {
+                                navigation.navigate('I4');
+                            }
+                            }>
+                            Continuer
                     </Button>
                     </View>
                 )}

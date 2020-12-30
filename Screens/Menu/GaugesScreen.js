@@ -51,7 +51,7 @@ function GaugeScreen(props) {
 
             </Row>
             <Row size={95} style={[styles.centerContentX]}>
-                <OverviewBar automatic percentageFinished={70} />
+                <OverviewBar automatic />
                 <ScrollView>
                     <View style={[styles.jaugesScrollView, styles.rowDirection, styles.showBorder]}>
                         {showPartStatus()}

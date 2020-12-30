@@ -832,7 +832,7 @@ function convertFromJuzs(juzs) {
             correspondingPages.push(...Array(21).keys());
         }
     }
-    correspondingPages = correspondingPages.map(x => x += 1);
+    correspondingPages = correspondingPages.map(x => x + 1);
     return [convertFromPages(correspondingPages)[1], correspondingPages];
 }
 

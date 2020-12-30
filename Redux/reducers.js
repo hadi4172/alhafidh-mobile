@@ -21,16 +21,16 @@ let convert = (state, action) => {
     
     switch (from) {
         case 0:
-            result = convertFromJuzs(state.value[0].map(x => x -= 1));
-            [state.value[1], state.value[2]] = [result[0].map(x => x += 1), result[1]];
+            result = convertFromJuzs(state.value[0].map(x => x - 1));
+            [state.value[1], state.value[2]] = [result[0].map(x => x + 1), result[1]];
             break;
         case 1:
-            result = convertFromSurahs(state.value[1].map(x => x -= 1));
-            [state.value[0], state.value[2]] = [result[0].map(x => x += 1), result[1]];
+            result = convertFromSurahs(state.value[1].map(x => x - 1));
+            [state.value[0], state.value[2]] = [result[0].map(x => x + 1), result[1]];
             break;
         case 2:
             result = convertFromPages(state.value[2]);
-            [state.value[0], state.value[1]] = [result[0].map(x => x += 1), result[1].map(x => x += 1)];
+            [state.value[0], state.value[1]] = [result[0].map(x => x + 1), result[1].map(x => x + 1)];
             break;
         default:
             break;
