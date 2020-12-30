@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { set, toggle, convert } from "./reducers";
+import { set, toggle, forceCheckbox, convert } from "./reducers";
 
 
 function sliceMaker(name, initialValue, reducers) {
@@ -19,8 +19,7 @@ let setReducer = { set: set };
 // =============================================================================
 
 /**
- * Valeur qui sera toujours commune aux 3 écrans car passée en référence, contient des 
- * tableaux d'integer représentant les parties activés de cette façon : 
+ * Contient des tableaux de nombres entiers représentant les parties activés de cette façon : 
  * [Juzs, Sourates, Pages]
  * Ex : 
  * [[5],[4],[
@@ -32,12 +31,13 @@ let partInitialValue = [[], [], []];
 let partReducers = {
   set: set,
   toggle: toggle,
+  forceCheckbox: forceCheckbox,
   convert: convert
 };
 
+const memorizedSlice = sliceMaker("memorized", partInitialValue, partReducers);
 const familiarSlice = sliceMaker("familiar", partInitialValue, partReducers);
 const toMemorizeSlice = sliceMaker("toMemorize", partInitialValue, partReducers);
-const memorizedSlice = sliceMaker("memorized", partInitialValue, partReducers);
 
 const toggleAllCheckboxSlice = sliceMaker("toggleAllCheckbox", [false, false, false], setReducer);    // one array for earch screen (memorized, familiar, toMemorize)
 
@@ -73,9 +73,9 @@ const firstStartSlice = sliceMaker("firstStart", true, setReducer);
 
 
 /* PARTS SLICES */
+export let memorizedReducer = memorizedSlice.reducer;
 export let familiarReducer = familiarSlice.reducer;
 export let toMemorizeReducer = toMemorizeSlice.reducer;
-export let memorizedReducer = memorizedSlice.reducer;
 export let toggleAllCheckboxReducer = toggleAllCheckboxSlice.reducer;
 
 /* USER GENERATED DATA SLICES */

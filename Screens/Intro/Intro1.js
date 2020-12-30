@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
-import { StyleSheet, View, Image, Dimensions, Text } from 'react-native';
+import { StyleSheet, View, Image, Dimensions, Text, TouchableOpacity } from 'react-native';
 import { configureRevisionMode, configureNormalMode } from "../../Utils/utils";
 
 const { width, height } = Dimensions.get('window');
@@ -53,8 +53,15 @@ function I1Screen({ navigation }) {
                     Seulement réviser
             </Button>
                 {!isFirstStart && (
-                    <Button style={[styles.btn]}
-                        contentStyle={styles.btnIn}
+                    // <TouchableOpacity style={[styles.btn, styles.showBorder, {justifyContent:"center", alignItems:"center"}]} onPress={() => {
+                    //     navigation.navigate('Mémorisé');
+                    // }}>
+                    //     <Text style={[{color:"green", fontSize:16}]}>
+                    //         Suivant
+                    //     </Text>
+                    // </TouchableOpacity>
+                    <Button style={[styles.btn,{width:"50%", justifyContent:"center", alignSelf:"center"}, styles.showBorder]}
+                        contentStyle={{height:"100%"}}
                         theme={{ roundness: 115 }}
                         color="green"
                         labelStyle={styles.btnTxt}

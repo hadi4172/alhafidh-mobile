@@ -15,6 +15,18 @@ let toggle = (state, action) => {
     }
 }
 
+let forceCheckbox = (state, action) => {
+    let type = action.payload[0];    // is It a Juz or Surah or Page
+    let index = action.payload[1];
+    let isChecked = action.payload[2];
+
+    if (state.value[type].some(x => x === index)) {
+        if(!isChecked) state.value[type] = state.value[type].filter(x => x !== index);
+    } else {
+        if(isChecked) state.value[type].push(index);
+    }
+}
+
 let convert = (state, action) => {
     let from = action.payload;  //int : 0 for Juz, 1 for Surah, 2 for Page
     let result;
@@ -37,4 +49,4 @@ let convert = (state, action) => {
     }
 }
 
-export { set, toggle, convert };
+export { set, toggle, convert, forceCheckbox };

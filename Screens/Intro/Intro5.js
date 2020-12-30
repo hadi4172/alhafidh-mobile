@@ -55,8 +55,8 @@ function I5Screen({ navigation }) {
                     Ordre inverse du Mushaf
                     </Button>
                 {!isFirstStart && (
-                    <Button style={[styles.btn]}
-                        contentStyle={styles.btnIn}
+                    <Button style={[styles.btn,{width:"30%", justifyContent:"center", alignSelf:"center", marginTop:10}, styles.showBorder]}
+                        contentStyle={{height:"100%"}}
                         theme={{ roundness: 115 }}
                         color="green"
                         labelStyle={styles.btnTxt}
@@ -76,10 +76,10 @@ function I5Screen({ navigation }) {
 
 const styles = StyleSheet.create({
     showBorder: {
-        borderColor: 'black',
-        borderStyle: 'dotted',
-        borderWidth: 1,
-        margin: 1
+        // borderColor: 'black',
+        // borderStyle: 'dotted',
+        // borderWidth: 1,
+        // margin: 1
     },
     container: {
     },
