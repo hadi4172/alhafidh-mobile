@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useIsFocused } from '@react-navigation/native';
-import CheckboxFlatList from '../../Components/CheckboxFlatList';
+import CheckboxList from '../../Components/CheckboxList';
 import { surahInfo } from "../../Data/quranStats";
 
 import { useSelector } from 'react-redux'; //pour tester
@@ -24,7 +24,7 @@ function CheckboxesScreen(props) {
 
     return (
         <View style={styles.container} >
-            <CheckboxFlatList data={sendData()} screen={screen} />
+            <CheckboxList data={sendData()} screen={screen} />
         </View >
     );
 }
