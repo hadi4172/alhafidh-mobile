@@ -1,5 +1,5 @@
 // import { combineReducers } from 'redux'
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import {
     familiarReducer,
     toMemorizeReducer,
@@ -35,7 +35,8 @@ const store = configureStore({
         order: orderReducer,
 
         firstStart: firstStartReducer
-    }
+    },
+    middleware: [...getDefaultMiddleware({immutableCheck: false})]
 });
 
 export default store;

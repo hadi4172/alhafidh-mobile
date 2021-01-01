@@ -2,7 +2,8 @@ import React, { useLayoutEffect } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import TodoScreen from "../Screens/Menu/TodoScreen";
+// import TodoScreen from "../Screens/Menu/TodoScreen";
+import TodoStackNavigator from "./TodoStackNavigator";
 import MushafScreen from "../Screens/Menu/MushafScreen";
 import GaugesScreen from "../Screens/Menu/GaugesScreen";
 import ProfileScreen from "../Screens/Menu/ProfileScreen";
@@ -13,10 +14,10 @@ const Tab = createMaterialBottomTabNavigator();
 function MainTabbar() {
     let hasFinishedTodayGoal = true;
     return (
-        <Tab.Navigator initialRouteName="Feed" activeColor="white" /* barStyle={{backgroundColor:"forestgreen"}} */>
+        <Tab.Navigator activeColor="white" /* barStyle={{backgroundColor:"forestgreen"}} */>
             <Tab.Screen
                 name="Todo"
-                component={TodoScreen}
+                component={TodoStackNavigator}
                 options={{
                     tabBarBadge: hasFinishedTodayGoal ? false : "",
                     tabBarColor: "steelblue",

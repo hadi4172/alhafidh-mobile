@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TouchableOpacity, StyleSheet, Dimensions, Text, Platform } from 'react-native';
 import { Grid, Row, Col } from '../ImportIndex';
 import { AnimatedCircularProgress } from 'react-native-circular-progress';
@@ -7,9 +7,10 @@ import { Icon } from 'react-native-elements'
 const { width, height } = Dimensions.get('window');
 
 function TodoRectangle(props) {
-    let { isRevision, type, value } = props;
+    let { isRevision, type, value, hasFinished } = props;
 
     const [fill, setFill] = useState(0);
+    const [oldFill, setOldFill] = useState(0);
 
     let color = isRevision ? "#0294e3" : "lightgreen";
     let borderColor = isRevision ? "#0173B1" : "limegreen";
@@ -19,6 +20,14 @@ function TodoRectangle(props) {
     let denominator;
 
     let isFull = Math.round(fill) === 100;
+    let wasFull = Math.round(oldFill) === 100;
+
+    useEffect(() => {
+        if (!wasFull && isFull) { setOldFill(fill); hasFinished(state => state + 1); }
+        if (wasFull && !isFull) { setOldFill(fill); hasFinished(state => state - 1); }
+    }, [fill]);
+
+
 
     let firstLineString,
         secondLineString = "";
@@ -47,8 +56,10 @@ function TodoRectangle(props) {
             <Grid style={[styles.showBorder]}>
                 <Col style={[styles.showBorder, { paddingLeft: 10, paddingTop: 7 }]}>
                     <TouchableOpacity style={{ height: "100%" }} onPress={() => {
-                        if (Math.round(fill - 100 / denominator) >= 0)
+                        if (Math.round(fill - 100 / denominator) >= 0) {
                             setFill(fill - 100 / denominator);
+                            setOldFill(fill);
+                        }
                     }}>
                         <Text style={[{ fontSize: 21, fontWeight: "bold", marginBottom: 3, color: textColor }]}>{title}</Text>
                         <Text style={{ fontSize: 16, color: textColor }}>{firstLineString}</Text>
@@ -58,9 +69,10 @@ function TodoRectangle(props) {
 
                 <Col style={[styles.showBorder, styles.centerContentY, { width: 125, alignItems: "center" }]}>
                     <TouchableOpacity style={{ borderWidth: 2, borderColor: borderColor, borderRadius: 1000 }} onPress={() => {
-                        if (Math.round(fill + 100 / denominator) <= 100)
+                        if (Math.round(fill + 100 / denominator) <= 100) {
                             setFill(fill + 100 / denominator);
-
+                            setOldFill(fill);
+                        }
                     }}>
                         <AnimatedCircularProgress
                             size={127}

@@ -55,7 +55,7 @@ function I5Screen({ navigation }) {
                     Ordre inverse du Mushaf
                     </Button>
                 {!isFirstStart && (
-                    <Button style={[styles.btn,{width:"30%", justifyContent:"center", alignSelf:"center", marginTop:10}, styles.showBorder]}
+                    <Button style={[styles.btn,{width:"40%", justifyContent:"center", alignSelf:"center", marginTop:10}, styles.showBorder]}
                         contentStyle={{height:"100%"}}
                         theme={{ roundness: 115 }}
                         color="green"
