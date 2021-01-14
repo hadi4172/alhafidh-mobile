@@ -30,6 +30,7 @@ function I6Screen(props) {
                     style={{width:"70%", borderColor:"green", fontSize:18}}
                     mode={"outlined"}
                     numberOfLines={1}
+                    theme={{ colors: { primary: "green"} }}
                     placeholder='Entrez votre nom'
                     value={text !== "" ? text : null}
                     onChangeText={text => setText(text)}

@@ -29,6 +29,7 @@ function I3Screen({ navigation }) {
     };
 
     const handleConfirm = (date) => {
+        hideDatePicker();
         if (date.getTime() < (+initialDate + 1000 * 60 * 60 * 24 * 1)) {         //fix a IOS bug
             date = new Date(+initialDate + 1000 * 60 * 60 * 24 * 30)
         }
@@ -39,7 +40,6 @@ function I3Screen({ navigation }) {
         setDisplayedDate("in " + moment.preciseDiff(initialDate, date.getTime()));
         dispatch({ type: `finishTimeRemaining/set`, payload: (+date - initialDate) / (1000 * 60 * 60 * 24) });
         if (!showContinue) setShowContinue(true);
-        hideDatePicker();
     };
 
     return (
