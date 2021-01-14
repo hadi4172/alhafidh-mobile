@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Cross platform mobile app using React Native, to calculate and track Qur'an memorization. It helps to memorize more and more quickly the text and revise it differently depending on whether the memorized pages are in short-term or long-term memory.",
+    "githubUrl": "https://github.com/hadi4172/alhafidh-mobile"
   }
 }

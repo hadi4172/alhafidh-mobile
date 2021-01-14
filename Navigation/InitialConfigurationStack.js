@@ -2,11 +2,14 @@ import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
+
+import ExplainingScreen from "../Screens/Other/ExplainingScreen";
 import I0Screen from '../Screens/Intro/Intro0';
 import I1Screen from '../Screens/Intro/Intro1';
 import I3Screen from '../Screens/Intro/Intro3';
 import I4Screen from '../Screens/Intro/Intro4';
 import I5Screen from '../Screens/Intro/Intro5';
+import I6Screen from '../Screens/Intro/Intro6';
 import T0Screen from '../Screens/Tutorial/Tutorial0';
 import { useSelector } from 'react-redux';
 import PartsTopTabNavigator from './TopTabBar';
@@ -17,10 +20,11 @@ const Stack = createStackNavigator();
 
 function InitialConfigurationStack() {
 
-  const checkBoxesScreenHeader = (navigation, nextScreen) => {
+  const checkBoxesScreenHeader = (navigation, nextScreen, showHeaderTitle = true) => {
     return {
       headerShown: true,
       headerBackTitle: "Retour",
+      headerTitleStyle: !showHeaderTitle ? { color: 'transparent' } : null,
       headerRight: () => (
         <TouchableOpacity style={{ height: "100%", justifyContent: "center" }} onPress={() =>
           navigation.navigate(nextScreen)
@@ -49,16 +53,47 @@ function InitialConfigurationStack() {
       />
 
       <Stack.Screen
+        name="ExplainingMémorisé"
+        component={ExplainingScreen}
+        options={({ navigation }) => (checkBoxesScreenHeader(navigation, "Mémorisé", false))}
+        initialParams={{
+          textToDisplay: `Sélectionnez les parties que vous êtes capable de réciter sans aucune difficulté actuellement`,
+          destination: `Mémorisé`, inverse: true, isWhite: true
+        }}
+      />
+
+      <Stack.Screen
         name="Mémorisé"
         component={PartsTopTabNavigator}
         initialParams={{ screen: "memorized" }}
-        options={({ navigation }) => (checkBoxesScreenHeader(navigation, !isRevisionMode ? "Familier" : isFirstStart ? "T0" : "Menu"))} />
+        options={({ navigation }) => (checkBoxesScreenHeader(navigation, !isRevisionMode ? "ExplainingFamilier" : isFirstStart ? "T0" : "Menu"))} />
+
+      <Stack.Screen
+        name="ExplainingFamilier"
+        component={ExplainingScreen}
+        options={({ navigation }) => (checkBoxesScreenHeader(navigation, "Familier", false))}
+        initialParams={{
+          textToDisplay: `Sélectionnez les parties auquel vous êtes familier. \n (Ce que vous avez mémorisé dans` +
+            ` le passé et oublié ou ce que vous lisez ou écoutez régulièrement)`,
+          destination: `Familier`, inverse: true, isWhite: true
+        }}
+      />
 
       <Stack.Screen
         name="Familier"
         component={PartsTopTabNavigator}
         initialParams={{ screen: "familiar" }}
-        options={({ navigation }) => (checkBoxesScreenHeader(navigation, "Objectif"))} />
+        options={({ navigation }) => (checkBoxesScreenHeader(navigation, "ExplainingObjectif"))} />
+
+      <Stack.Screen
+        name="ExplainingObjectif"
+        component={ExplainingScreen}
+        options={({ navigation }) => (checkBoxesScreenHeader(navigation, "Objectif", false))}
+        initialParams={{
+          textToDisplay: `Sélectionnez les parties auquel vous avez l'ambition d'apprendre`,
+          destination: `Objectif`, inverse: true, isWhite: true
+        }}
+      />
 
       <Stack.Screen
         name="Objectif"
@@ -80,6 +115,11 @@ function InitialConfigurationStack() {
       <Stack.Screen
         name="I5"
         component={I5Screen}
+      />
+
+      <Stack.Screen
+        name="I6"
+        component={I6Screen}
       />
 
       <Stack.Screen

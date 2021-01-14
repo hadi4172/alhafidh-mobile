@@ -42,9 +42,10 @@ function MushafDrawerContent(props) {
                         label={`${x.id}.   ${x.name}`}
                         onPress={() => { }}
                         labelStyle={[{ color: "white", fontSize: 22, fontWeight: "bold", width:300}]}
-                        style={[{ marginVertical: -3}]}
+                        style={[{ marginVertical: -3}, styles.showBorder]}
                     />
                 ))}
+                <View style={{height:12}}/>
             </DrawerContentScrollView>
 
         </View >
@@ -53,10 +54,10 @@ function MushafDrawerContent(props) {
 
 const styles = StyleSheet.create({
     showBorder: {
-        borderColor: 'black',
-        borderStyle: 'dotted',
-        borderWidth: 1,
-        margin: 1
+        // borderColor: 'black',
+        // borderStyle: 'dotted',
+        // borderWidth: 1,
+        // margin: 1
     },
     container: {
     },

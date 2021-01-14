@@ -33,8 +33,7 @@ function I5Screen({ navigation }) {
                     mode="contained"
                     onPress={() => {
                         dispatch({ type: `order/set`, payload: true });
-                        if (isFirstStart) navigation.navigate('T0');
-                        else navigation.navigate("Menu");
+                        navigation.navigate('I6');
                     }
                     }>
                     Ordre du Mushaf
@@ -48,8 +47,7 @@ function I5Screen({ navigation }) {
                     mode="contained"
                     onPress={() => {
                         dispatch({ type: `order/set`, payload: false });
-                        if (isFirstStart) navigation.navigate('T0');
-                        else navigation.navigate("Menu");
+                        navigation.navigate('I6');
                     }
                     }>
                     Ordre inverse du Mushaf
@@ -63,7 +61,7 @@ function I5Screen({ navigation }) {
                         uppercase={false}
                         // mode="contained"
                         onPress={() => {
-                            navigation.navigate('Menu');
+                            navigation.navigate('I6');
                         }
                         }>
                         Suivant

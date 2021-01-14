@@ -12,7 +12,7 @@ function I3Screen({ navigation }) {
     let initialDate = (new Date()).setHours(0, 0, 0, 0);
 
     let savedDaysRemaining = useSelector(state => state.finishTimeRemaining.value);
-    let displayedDateInitialValue = savedDaysRemaining !== 0 ? "in " + moment.preciseDiff(initialDate,  moment(initialDate).add(savedDaysRemaining, "days")) : "";
+    let displayedDateInitialValue = savedDaysRemaining !== 0 ? "in " + moment.preciseDiff(initialDate,  initialDate + savedDaysRemaining * (1000 * 60 * 60 * 24)) : "";
 
     let [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     let [displayedDate, setDisplayedDate] = useState(displayedDateInitialValue);
@@ -35,6 +35,7 @@ function I3Screen({ navigation }) {
         date.setHours(0, 0, 0, 0);
 
         setSelectedDate(date);
+        if((+date - initialDate) % (1000 * 60 * 60 * 24) === 82800000 ) date = new Date(moment(date).add(1, "hours"));  //fix 23 hours
         setDisplayedDate("in " + moment.preciseDiff(initialDate, date.getTime()));
         dispatch({ type: `finishTimeRemaining/set`, payload: (+date - initialDate) / (1000 * 60 * 60 * 24) });
         if (!showContinue) setShowContinue(true);

@@ -29,7 +29,7 @@ function I1Screen({ navigation }) {
                     mode="contained"
                     onPress={() => {
                         if (!isFirstStart && isRevisionMode || isFirstStart) {
-                            navigation.navigate('Mémorisé');
+                            navigation.navigate('ExplainingMémorisé');
                             dispatch({ type: `revisionMode/set`, payload: false });
                             configureNormalMode(dispatch);
                         }
@@ -45,7 +45,7 @@ function I1Screen({ navigation }) {
                     mode="contained"
                     onPress={() => {
                         if (!isFirstStart && !isRevisionMode || isFirstStart) {
-                            navigation.navigate('Mémorisé');
+                            navigation.navigate('ExplainingMémorisé');
                             dispatch({ type: `revisionMode/set`, payload: true });
                             configureRevisionMode(dispatch)
                         }
@@ -68,7 +68,7 @@ function I1Screen({ navigation }) {
                         uppercase={false}
                         // mode="contained"
                         onPress={() => {
-                            navigation.navigate('Mémorisé');
+                            navigation.navigate('ExplainingMémorisé');
                         }
                         }>
                         Suivant

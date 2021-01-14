@@ -15,7 +15,7 @@ function T5Screen(props) {
     //     return ~~(Math.random() * (max - min + 1)) + min;
     // }
     let initialDate = (new Date()).setHours(0, 0, 0, 0);
-    let stringDiffTillFinish = moment.preciseDiff(initialDate, moment(initialDate).add(794, "days"));
+    let stringDiffTillFinish = moment.preciseDiff(initialDate, initialDate + 794 * (1000 * 60 * 60 * 24));
 
     return (
         <Grid>

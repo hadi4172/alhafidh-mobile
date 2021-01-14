@@ -7,7 +7,7 @@ import { Icon } from 'react-native-elements'
 const { width, height } = Dimensions.get('window');
 
 function TodoRectangle(props) {
-    let { isRevision, type, value, hasFinished } = props;
+    let { isRevision, type, value, hasFinished, hasStarted } = props;
 
     const [fill, setFill] = useState(0);
     const [oldFill, setOldFill] = useState(0);
@@ -22,12 +22,15 @@ function TodoRectangle(props) {
     let isFull = Math.round(fill) === 100;
     let wasFull = Math.round(oldFill) === 100;
 
+    let isNotEmpty = Math.round(fill) > 0;
+    let wasNotEmpty = Math.round(oldFill) > 0;
+
     useEffect(() => {
         if (!wasFull && isFull) { setOldFill(fill); hasFinished(state => state + 1); }
         if (wasFull && !isFull) { setOldFill(fill); hasFinished(state => state - 1); }
+        if (!wasNotEmpty && isNotEmpty) hasStarted(state => state + 1);
+        if (wasNotEmpty && !isNotEmpty) hasStarted(state => state - 1);
     }, [fill]);
-
-
 
     let firstLineString,
         secondLineString = "";
@@ -79,7 +82,7 @@ function TodoRectangle(props) {
                             width={17}
                             backgroundWidth={17}
                             lineCap={Platform.OS === "ios" ? "round" : "butt"}
-                            fill={fill}
+                            fill={Math.round(fill)}
                             // arcSweepAngle={240}
                             // rotation={240}
                             style={{ margin: 0, borderWidth: 4, borderColor: "white", borderRadius: 1000 }}
