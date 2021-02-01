@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Drawer } from 'react-native-paper';
-import { SearchBar, Divider } from 'react-native-elements';
+import { SearchBar, Divider, ButtonGroup } from 'react-native-elements';
 
 import { surahInfo } from "../../Data/quranStats";
 
@@ -11,15 +11,31 @@ function MushafDrawerContent(props) {
     let { } = props;
 
     const [search, setSearch] = useState("");
+    const [selectedIndex, setSelectedIndex] = useState(1);
+
+    const modes = ["Juz'", 'Surah', 'Page'];
 
     const updateSearch = (value) => {
         setSearch(value)
+    };
+
+    const updateIndex = (index) => {
+        setSelectedIndex(index);
+    };
+
+    const filterParts = (parts) => {
+        let toRender = [];
+        for (const part of parts) if (search === "" || `${part.id}${part.name}`.includes(search)) toRender.push(part);
+        return toRender;
     }
 
-    const filterSurahs = () => {
-        let toRender = [];
-        for (const surah of surahInfo) if(search === "" || `${surah.id}${surah.name}`.includes(search)) toRender.push(surah);
-        return toRender;
+    const getJuzsOrPagesList = () => {
+        let mode = modes[selectedIndex];
+        let modeList = [];
+        for (let i = 1; i <= (mode === "Juz'" ? 30 : 604); i++) {
+            modeList.push({ 'id': i, "name": `${mode} ${i}` });
+        }
+        return modeList;
     }
 
     return (
@@ -30,22 +46,43 @@ function MushafDrawerContent(props) {
                 placeholder="Search..."
                 onChangeText={updateSearch}
                 value={search}
-                inputContainerStyle={{opacity:0.75}}
-                containerStyle={{ backgroundColor: "forestgreen", marginTop:20}}
-                cancelButtonProps={{color:"rgba(255, 255, 255, 0.6)"}}
+                inputContainerStyle={{ opacity: 0.75 }}
+                containerStyle={{ backgroundColor: "forestgreen", marginTop: 20 }}
+                cancelButtonProps={{ color: "rgba(255, 255, 255, 0.6)" }}
             />
+            <ButtonGroup
+                onPress={updateIndex}
+                selectedIndex={selectedIndex}
+                buttons={modes}
+                containerStyle={[styles.showBorder, { backgroundColor: "#196719", opacity: 0.75, borderWidth: 0 }]}
+                buttonContainerStyle={{ borderWidth: 0 }}
+                innerBorderStyle={{ width: 0 }}
+                selectedButtonStyle={{ backgroundColor: "#28a428" }}
+                textStyle={{ color: "white" }}
+            />
+
             <DrawerContentScrollView>
-                <View style={{marginBottom:-15}}/>
-                {filterSurahs().map((x) => (
+                <View style={{ marginBottom: -20 }} />
+                {selectedIndex === 1 ? filterParts(surahInfo).map((x) => (
                     <DrawerItem
                         key={x.id}
                         label={`${x.id}.   ${x.name}`}
                         onPress={() => { }}
-                        labelStyle={[{ color: "white", fontSize: 22, fontWeight: "bold", width:300}]}
-                        style={[{ marginVertical: -3}, styles.showBorder]}
+                        labelStyle={[{ color: "white", fontSize: 22, fontWeight: "bold", width: 300 }]}
+                        style={[{ marginVertical: -3 }, styles.showBorder]}
                     />
-                ))}
-                <View style={{height:12}}/>
+                )) : 
+                filterParts(getJuzsOrPagesList()).map((x) => (
+                    <DrawerItem
+                        key={x.id}
+                        label={`${x.name}`}
+                        onPress={() => { }}
+                        labelStyle={[{ color: "white", fontSize: 22, fontWeight: "bold", width: 300 }]}
+                        style={[{ marginVertical: -3 }, styles.showBorder]}
+                    />
+                ))
+                }
+                <View style={{ height: 12 }} />
             </DrawerContentScrollView>
 
         </View >

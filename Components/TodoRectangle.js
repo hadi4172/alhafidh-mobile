@@ -12,8 +12,15 @@ function TodoRectangle(props) {
     const [fill, setFill] = useState(0);
     const [oldFill, setOldFill] = useState(0);
 
-    let color = isRevision ? "#0294e3" : "lightgreen";
-    let borderColor = isRevision ? "#0173B1" : "limegreen";
+    let color = (() => {
+        switch (type) {
+            case "juz'": return isRevision ? "#0173b1" : "mediumseagreen";
+            case "page": return isRevision ? "#0294e3" : "limegreen";
+            case "line": return isRevision ? "#66b3ff" : "lightgreen";
+            default: return "lightgrey";
+        }
+    })();
+    let borderColor = isRevision ? "rgba(1, 115, 177, 1)" : "rgba(35, 144, 35, 1)";
     let textColor = isRevision ? "white" : "#004d00";
     let title = isRevision ? "Révision" : "Mémorisation";
     let circularProgressColors = isRevision ? ["#0173B1", "#b3e4ff"] : ["lightseagreen", "#ccffcc"];
@@ -26,10 +33,14 @@ function TodoRectangle(props) {
     let wasNotEmpty = Math.round(oldFill) > 0;
 
     useEffect(() => {
-        if (!wasFull && isFull) { setOldFill(fill); hasFinished(state => state + 1); }
-        if (wasFull && !isFull) { setOldFill(fill); hasFinished(state => state - 1); }
-        if (!wasNotEmpty && isNotEmpty) hasStarted(state => state + 1);
-        if (wasNotEmpty && !isNotEmpty) hasStarted(state => state - 1);
+        if (hasFinished) {  //The function is given in the props
+            if (!wasFull && isFull) { setOldFill(fill); hasFinished(state => state + 1); }
+            if (wasFull && !isFull) { setOldFill(fill); hasFinished(state => state - 1); }
+        }
+        if (hasStarted) {   //The function is given in the props
+            if (!wasNotEmpty && isNotEmpty) hasStarted(state => state + 1);
+            if (wasNotEmpty && !isNotEmpty) hasStarted(state => state - 1);
+        }
     }, [fill]);
 
     let firstLineString,

@@ -21,7 +21,7 @@ function I4Screen(props) {
         displayedDate = moment.preciseDiff(today, today + daysToFinish * (1000 * 60 * 60 * 24)),
         numberOfBoxes = daysToFinish > 365 ? 8 : 4,
         isLongPeriod = daysToFinish > (20 * numberOfBoxes);
-
+        
     const getTextDateIntervalArray = (numOfBoxesBeforeCompletion) => {
         let dateIntervals = [];
         dateIntervals.push(moment(today).format('MMM Do YY'));

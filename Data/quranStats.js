@@ -766,21 +766,21 @@ function convertFromSurahs(surahs) {  //donner en argument tableau des numeros d
 
     for (let i = 0, length = surahs.length; i < length; i++) {
 
-        const countSurahWithSameStartPage = (page) => {
-            let count = [];
-            startPageOfSurahs.forEach((x, i) => { if (x === page) count.push(i); });
-            return count;
+        const getSurahsWithSameStartPage = (page) => {
+            let surahsWithSameStartPage = [];
+            startPageOfSurahs.forEach((x, i) => { if (x === page) surahsWithSameStartPage.push(i); });
+            return surahsWithSameStartPage;
         }
 
-        //verifier extremite basse
+        //verifier si on doit rajouter la page de commencement d'un sourate donnée
         if (surahs[i] !== 0) {
 
-            if (endLineOfSurahs[surahs[i] - 1] !== 15) {
-                if (countSurahWithSameStartPage(startPageOfSurahs[surahs[i]]).every(i => surahs.includes(i))) {
+            if (endLineOfSurahs[surahs[i] - 1] !== 15) {    //Le dernier verset de la sourate n'est pas à la fin de la page
+                if (getSurahsWithSameStartPage(startPageOfSurahs[surahs[i]]).every(i => surahs.includes(i))) {
                     correspondingPages.push(startPageOfSurahs[surahs[i]]);
                 }
             } else {
-                if (countSurahWithSameStartPage(startPageOfSurahs[surahs[i]]).length === 1) {
+                if (getSurahsWithSameStartPage(startPageOfSurahs[surahs[i]]).length === 1) {
                     correspondingPages.push(startPageOfSurahs[surahs[i]]);
                 }
             }
@@ -788,21 +788,21 @@ function convertFromSurahs(surahs) {  //donner en argument tableau des numeros d
 
         //rajouter milieu
         if (surahs[i] + 1 < 114) {
-            for (let j = startPageOfSurahs[surahs[i]] + 1, length = startPageOfSurahs[surahs[i] + 1] - 1; j < length; j++) {
+            for (let j = startPageOfSurahs[surahs[i]] + 1, length = startPageOfSurahs[surahs[i] + 1] - 1; j <= length; j++) {
                 correspondingPages.push(j);
             }
-            //verifier extremite haute
+            ///verifier si on doit rajouter la page de fin d'un sourate donnée 
             if (endLineOfSurahs[surahs[i]] !== 15) {
 
-                let count = countSurahWithSameStartPage(startPageOfSurahs[surahs[i] + 1]);
+                let surahsWithSameStartPage = getSurahsWithSameStartPage(startPageOfSurahs[surahs[i] + 1]);
                 let endIncluded = true;
-                for (let j = 0, length = count.length; j < length; j++) {
+                for (let j = 0, length = surahsWithSameStartPage.length; j < length; j++) {
                     if (!(surahs.some(x => x === (surahs[i] + 1 + j)))) {
                         endIncluded = false;
                     }
                 }
                 if (endIncluded) {
-                    correspondingPages.push(startPageOfSurahs[surahs[i] + 1]);
+                    correspondingPages.push(startPageOfSurahs[surahs[i] + 1]);      //rajoute la première page de la sourate suivante
                 }
 
             } else {

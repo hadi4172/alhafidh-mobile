@@ -74,8 +74,8 @@ function CheckboxList(props) {
         }
     })();
 
-    let selectCurrentState = useSelector(state => state[screen].value)[currentType].map(x => x.toString());
-    let selectMemorizedState = useSelector(state => state.memorized.value).map(x => x.map(y => y.toString()));
+    let selectCurrentState = useSelector(state => state[screen].value)[currentType];
+    let selectMemorizedState = useSelector(state => state.memorized.value);
 
     let dispatch = useDispatch();
 
@@ -125,9 +125,9 @@ function CheckboxList(props) {
                                     case 1:
                                         dispatch({
                                             type: `${screen}/set`, payload: [
-                                                range(1, 30).filter(n => !selectMemorizedState[0].includes(n.toString())),
-                                                range(1, 114).filter(n => !selectMemorizedState[1].includes(n.toString())),
-                                                range(1, 604).filter(n => !selectMemorizedState[2].includes(n.toString()))
+                                                range(1, 30).filter(n => !selectMemorizedState[0].includes(n)),
+                                                range(1, 114).filter(n => !selectMemorizedState[1].includes(n)),
+                                                range(1, 604).filter(n => !selectMemorizedState[2].includes(n))
                                             ]
                                         });
                                         break;
@@ -178,8 +178,8 @@ function CheckboxList(props) {
                         iconRight={true}
                         type={currentType}
                         dispatcher={dispatch}
-                        isChecked={returnIfChecked(item.id.toString())}
-                        isDisabled={screen !== "memorized" ? returnIfDisabled(item.id.toString()) : false}
+                        isChecked={returnIfChecked(item.id)}
+                        isDisabled={screen !== "memorized" ? returnIfDisabled(item.id) : false}
                         title={item.name}
                         textStyle={data.length > 150 ? styles.names_small : styles.names}
                     />
