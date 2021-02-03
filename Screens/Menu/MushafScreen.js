@@ -16,10 +16,10 @@ function MushafScreen(props) {
 
     return (
         <NavigationContainer independent={true} >
-            <Drawer.Navigator 
-            initialRouteName="Mushaf" 
-            drawerContent={props => <MushafDrawerContent {...props} />}
-            drawerStyle={{ backgroundColor: "forestgreen" }}
+            <Drawer.Navigator
+                initialRouteName="Mushaf"
+                drawerContent={props => <MushafDrawerContent {...props} />}
+                drawerStyle={{ backgroundColor: "forestgreen" }}
             >
                 <Drawer.Screen name="Mushaf" children={() => (
                     <Grid>

@@ -3,6 +3,7 @@ import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { Drawer } from 'react-native-paper';
 import { SearchBar, Divider, ButtonGroup } from 'react-native-elements';
+import RecyclerList from "../../Components/RecyclerList";
 
 import { surahInfo } from "../../Data/quranStats";
 
@@ -60,31 +61,23 @@ function MushafDrawerContent(props) {
                 selectedButtonStyle={{ backgroundColor: "#28a428" }}
                 textStyle={{ color: "white" }}
             />
-
-            <DrawerContentScrollView>
-                <View style={{ marginBottom: -20 }} />
-                {selectedIndex === 1 ? filterParts(surahInfo).map((x) => (
-                    <DrawerItem
-                        key={x.id}
-                        label={`${x.id}.   ${x.name}`}
-                        onPress={() => { }}
-                        labelStyle={[{ color: "white", fontSize: 22, fontWeight: "bold", width: 300 }]}
-                        style={[{ marginVertical: -3 }, styles.showBorder]}
-                    />
-                )) : 
-                filterParts(getJuzsOrPagesList()).map((x) => (
-                    <DrawerItem
-                        key={x.id}
-                        label={`${x.name}`}
-                        onPress={() => { }}
-                        labelStyle={[{ color: "white", fontSize: 22, fontWeight: "bold", width: 300 }]}
-                        style={[{ marginVertical: -3 }, styles.showBorder]}
-                    />
-                ))
-                }
-                <View style={{ height: 12 }} />
-            </DrawerContentScrollView>
-
+            <View style={[{ flex:1 }, styles.showBorder]}>
+                <RecyclerList
+                    data={selectedIndex === 1 ? filterParts(surahInfo) : filterParts(getJuzsOrPagesList())}
+                    width={300}
+                    height={50}
+                    rerenderWith={{selectedIndex: selectedIndex, search:search}}
+                    renderer={(x) => (
+                        <DrawerItem
+                            key={x.id}
+                            label={selectedIndex === 1 ? `${x.id}.   ${x.name}` : `${x.name}`}
+                            onPress={() => { }}
+                            labelStyle={[{ color: "white", fontSize: 22, fontWeight: "bold", width: 300 }]}
+                            style={[{ marginVertical: -3 }, styles.showBorder]}
+                        />
+                    )}
+                />
+            </View>
         </View >
     );
 }
