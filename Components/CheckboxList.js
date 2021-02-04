@@ -5,6 +5,9 @@ import { CheckBox as ElementCheckBox } from 'react-native-elements' //'native-ba
 import { FlatList } from 'react-native-gesture-handler';
 import RecyclerList from "./RecyclerList";
 
+import { convertFromJuzs, convertFromPages, convertFromSurahs } from "../Data/quranStats";
+import { range, generateLines, bin2dec, dec2bin, flipByte } from "../Utils/utils";
+
 const { width } = Dimensions.get('window');
 
 
@@ -23,8 +26,8 @@ function Checkbox(props) {
             checked={toggleCheckBox}
             title={title}
             disabled={isDisabled}
-            checkedColor={isDisabled ? "firebrick" : undefined}
-            uncheckedColor={isDisabled ? "firebrick" : undefined}
+            checkedColor={isDisabled ? "grey" : "#1980e6"}
+            uncheckedColor={isDisabled ? "grey" : "#75b3f0"}
             iconRight={iconRight}
             textStyle={[textStyle, styles.showBorder, { marginRight: "auto" }]}
             containerStyle={[{ flex: 1 }, styles.showBorder]}
@@ -34,16 +37,16 @@ function Checkbox(props) {
                 setToggleCheckBox(!toggleCheckBox);
                 if (typeof onPress === "undefined") {
                     dispatcher({ type: `${screen}/toggle`, payload: [type, parseInt(id)] })
-                    dispatcher({ type: `${screen}/convert`, payload: type })
+                    dispatcher({ type: `${screen}/convert` })
 
                     if (screen === "memorized") {
                         if (!toggleCheckBox) {
                             dispatcher({ type: `familiar/forceCheckbox`, payload: [type, parseInt(id), false] })
-                            dispatcher({ type: `familiar/convert`, payload: type })
+                            dispatcher({ type: `familiar/convert` })
                         }
 
                         dispatcher({ type: `toMemorize/forceCheckbox`, payload: [type, parseInt(id), !toggleCheckBox] })
-                        dispatcher({ type: `toMemorize/convert`, payload: type })
+                        dispatcher({ type: `toMemorize/convert` })
 
                     }
                 } else onPress(toggleCheckBox);
@@ -87,14 +90,22 @@ function CheckboxList(props) {
         return isHere;
     }
 
-    const returnIfDisabled = (x) => {
-        let isHere = selectMemorizedState[currentType].indexOf(x) !== -1;
-        return isHere;
-    }
-
-    const range = (start, count) => {
-        return Array.apply(0, Array(count))
-            .map((element, index) => index + start);
+    const returnIfDisabled = (x , type = currentType) => {
+        let convertFrom = [convertFromJuzs, convertFromSurahs, convertFromPages];
+        let correspondingLines = convertFrom[type]([x - (type !== 2 ? 1 : 0)])[2];
+        // if(x === 2) console.log(`${currentType} : correspondingLines:`,correspondingLines.slice(0,55));
+        let isDisabled = false;
+        for (let i = 0, length = selectMemorizedState[3].length; i < length; i++) {
+            if (bin2dec(correspondingLines[i]) !== 0b000000000000000) {
+                if (dec2bin((bin2dec(correspondingLines[i]) ^ bin2dec(selectMemorizedState[3][i])) | bin2dec(flipByte(correspondingLines[i]))).includes("0")) {
+                    // console.log(`currentType:${currentType} x:${x} i:${i}  correspondingLines[${i}]:${correspondingLines[i]}, selectMemorizedState[3][${i}]: ${selectMemorizedState[3][i]}  
+                    // result:${dec2bin((bin2dec(correspondingLines[i]) ^ bin2dec(selectMemorizedState[3][i])) | bin2dec(flipByte(correspondingLines[i])))}`);
+                    // console.log(`currentType:${currentType} x:${x} i:${i} result:${dec2bin(bin2dec((correspondingLines[i]) ^ bin2dec(selectMemorizedState[3][i])) | bin2dec(flipByte(correspondingLines[i])))}`);
+                    isDisabled = true;
+                }
+            }
+        }
+        return isDisabled;
     }
 
     return (
@@ -118,25 +129,27 @@ function CheckboxList(props) {
                             if (!isNotChecked) {
                                 switch (currentScreen) {
                                     case 0:
-                                        dispatch({ type: `${screen}/set`, payload: [range(1, 30), range(1, 114), range(1, 604)] });
-                                        dispatch({ type: `familiar/set`, payload: [[], [], []] });
-                                        dispatch({ type: `toMemorize/set`, payload: [range(1, 30), range(1, 114), range(1, 604)] });
+                                        dispatch({ type: `${screen}/set`, payload: [range(1, 30), range(1, 114), range(1, 604), generateLines(true)] });
+                                        dispatch({ type: `familiar/set`, payload: [[], [], [], generateLines(false)] });
+                                        dispatch({ type: `toMemorize/set`, payload: [range(1, 30), range(1, 114), range(1, 604), generateLines(true)] });
                                         break;
                                     case 1:
                                         dispatch({
                                             type: `${screen}/set`, payload: [
-                                                range(1, 30).filter(n => !selectMemorizedState[0].includes(n)),
-                                                range(1, 114).filter(n => !selectMemorizedState[1].includes(n)),
-                                                range(1, 604).filter(n => !selectMemorizedState[2].includes(n))
+                                                range(1, 30).filter(n => !returnIfDisabled(n, 0)),
+                                                range(1, 114).filter(n => !returnIfDisabled(n, 1)),
+                                                range(1, 604).filter(n => !returnIfDisabled(n, 2)),
+                                                generateLines(true).map((x, i) => dec2bin(bin2dec(x) & ~bin2dec(selectMemorizedState[3][i])))
                                             ]
                                         });
                                         break;
                                     case 2:
                                         dispatch({
                                             type: `${screen}/set`, payload: [
-                                                [...new Set(range(1, 30).concat(selectMemorizedState[0]))],
-                                                [...new Set(range(1, 114).concat(selectMemorizedState[1]))],
-                                                [...new Set(range(1, 604).concat(selectMemorizedState[2]))]
+                                                range(1, 30),
+                                                range(1, 114),
+                                                range(1, 604),
+                                                generateLines(true).map((x, i) => dec2bin(bin2dec(x) | bin2dec(selectMemorizedState[3][i])))
                                             ]
                                         });
                                         break;
@@ -147,14 +160,15 @@ function CheckboxList(props) {
                             } else {
                                 switch (currentScreen) {
                                     case 0:
-                                        dispatch({ type: `${screen}/set`, payload: [[], [], []] });
+                                        dispatch({ type: `${screen}/set`, payload: [[], [], [], generateLines(false)] });
+                                        dispatch({ type: `toMemorize/set`, payload: [[], [], [], generateLines(false)] });
                                         break;
                                     case 1:
-                                        dispatch({ type: `${screen}/set`, payload: [[], [], []] });
+                                        dispatch({ type: `${screen}/set`, payload: [[], [], [], generateLines(false)] });
                                         break;
                                     case 2:
                                         dispatch({
-                                            type: `${screen}/set`, payload: [selectMemorizedState[0], selectMemorizedState[1], selectMemorizedState[2]]
+                                            type: `${screen}/set`, payload: [selectMemorizedState[0], selectMemorizedState[1], selectMemorizedState[2], selectMemorizedState[3]]
                                         });
                                         break;
 
@@ -186,7 +200,7 @@ function CheckboxList(props) {
                 )}
             />
 
-               {/* <FlatList
+            {/* <FlatList
                 data={data}
                 // extraData={checked}
                 keyExtractor={item => item.id.toString()}

@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { set, toggle, forceCheckbox, convert } from "./reducers";
+import { generateLines } from "../Utils/utils";
 
 
 function sliceMaker(name, initialValue, reducers) {
@@ -19,14 +20,15 @@ let setReducer = { set: set };
 // =============================================================================
 
 /**
- * Contient des tableaux de nombres entiers représentant les parties activés de cette façon : 
- * [Juzs, Sourates, Pages]
+ * Contient des tableaux de nombres entiers et de strings représentant les parties activés de cette façon : 
+ * [Juzs, Sourates, Pages, Lignes]
  * Ex : 
  * [[5],[4],[
     77, 78, 79, 80, 81, 82, 83, 84,85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104
-  ]]
+  ], ['000000000000000', '000000000000000'.....]  //Pour chaque page, les lignes activées sont représentées par des 1, sinon des 0
+]
  */
-let partInitialValue = [[], [], []];
+let partInitialValue = [[], [], [], generateLines(false)];
 
 let partReducers = {
   set: set,
