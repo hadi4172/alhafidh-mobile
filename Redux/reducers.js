@@ -52,4 +52,16 @@ let convert = (state) => {
     ];
 }
 
-export { set, toggle, convert, forceCheckbox };
+let numberedToggle = (state, action) => {
+    let number = action.payload[0];        // the number to assign
+    let index = action.payload[1] - 1;      //index of the checkbox (int)
+
+    if (state.value[index] === -1) {     //remove part
+        if (!state.value.some(x => x === number))
+            state.value[index] = number;
+    } else {                                            //add part
+        state.value[index] = -1;
+    }
+}
+
+export { set, toggle, convert, forceCheckbox, numberedToggle };

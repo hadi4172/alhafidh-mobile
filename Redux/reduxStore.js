@@ -5,6 +5,8 @@ import {
     toMemorizeReducer,
     memorizedReducer,
     toggleAllCheckboxReducer,
+    orderedFamiliarSurahsReducer,
+    orderedToMemorizeSurahsReducer,
 
     finishTimeRemainingReducer,
     percentageFinishedReducer,
@@ -24,6 +26,8 @@ const store = configureStore({
         familiar: familiarReducer,
         toMemorize: toMemorizeReducer,
         toggleAllCheckbox: toggleAllCheckboxReducer,
+        orderedFamiliarSurahs: orderedFamiliarSurahsReducer,
+        orderedToMemorizeSurahs: orderedToMemorizeSurahsReducer,
 
         finishTimeRemaining: finishTimeRemainingReducer,
         percentageFinished: percentageFinishedReducer,

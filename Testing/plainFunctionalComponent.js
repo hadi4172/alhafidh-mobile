@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
     },
     container: {
     },
+    fitContent:{
+        flex:0,
+        height:"auto"
+    },
     centerContentX: {
         flexDirection: "column",
         alignItems: "center"

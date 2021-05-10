@@ -1,7 +1,7 @@
 import React, { useState, useEffect, memo } from 'react';
 import { View, StyleSheet, Dimensions, Text } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { CheckBox as ElementCheckBox } from 'react-native-elements' //'native-base';
+import { CheckBox as ElementCheckBox } from 'react-native-elements'; 
 import { FlatList } from 'react-native-gesture-handler';
 import RecyclerList from "./RecyclerList";
 
@@ -259,3 +259,4 @@ const styles = StyleSheet.create({
 });
 
 export default memo(CheckboxList);
+export {Checkbox};

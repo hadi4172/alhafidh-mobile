@@ -11,6 +11,7 @@ import I4Screen from '../Screens/Intro/Intro4';
 import I5Screen from '../Screens/Intro/Intro5';
 import I6Screen from '../Screens/Intro/Intro6';
 import T0Screen from '../Screens/Tutorial/Tutorial0';
+import OrderSelectScreen from '../Screens/Intro/OrderSelectScreen';
 import { useSelector } from 'react-redux';
 import PartsTopTabNavigator from './TopTabBar';
 import SwiperMainTutorial from './SwiperMainTutorial';
@@ -42,6 +43,7 @@ function InitialConfigurationStack() {
 
   return (
     <Stack.Navigator initialRouteName="Menu" screenOptions={{ headerShown: false }}>
+
       <Stack.Screen
         name="I0Screen"
         component={I0Screen}
@@ -99,8 +101,20 @@ function InitialConfigurationStack() {
         name="Objectif"
         component={PartsTopTabNavigator}
         initialParams={{ screen: "toMemorize" }}
-        options={({ navigation }) => (checkBoxesScreenHeader(navigation, "I3"))}
+        options={({ navigation }) => (checkBoxesScreenHeader(navigation, "OrderFamilier"))}
       />
+
+      <Stack.Screen
+        name="OrderFamilier"
+        component={OrderSelectScreen}
+        initialParams={{ screen: "OrderFamilier", nextScreenName: "OrderToMemorize" }}
+      />
+
+      <Stack.Screen
+        name="OrderToMemorize"
+        component={OrderSelectScreen}
+        initialParams={{ screen: "OrderToMemorize", nextScreenName: "I3" }}
+      />  
 
       <Stack.Screen
         name="I3"
