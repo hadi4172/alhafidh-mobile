@@ -1,0 +1,14 @@
+<AnimatedCircularProgress
+    size={200}
+    width={3}
+    fill={80}
+    tintColor="#00e0ff"
+    backgroundColor="#3d5875">
+    {
+        (fill) => (
+            <Text>
+                {80}
+            </Text>
+        )
+    }
+</AnimatedCircularProgress>
