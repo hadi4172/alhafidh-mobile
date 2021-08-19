@@ -16,7 +16,7 @@ function I4Screen(props) {
         daysToFinish = useSelector(state => state.finishTimeRemaining.value),
         memorized = useSelector(state => state.memorized.value)[2].length,
         toMemorize = useSelector(state => state.toMemorize.value)[2].length,
-        hifdhInformator = new HifdhInformator(toMemorize, daysToFinish, memorized),
+        hifdhInformator = HifdhInformator.setMainInstance(toMemorize, daysToFinish, memorized),
         today = (new Date()).setHours(0, 0, 0, 0),
         displayedDate = moment.preciseDiff(today, today + daysToFinish * (1000 * 60 * 60 * 24)),
         numberOfBoxes = daysToFinish > 365 ? 8 : 4,

@@ -338,6 +338,10 @@ function orLines(lines1, lines2) {
     return lines1.map((l, i) => dec2bin(bin2dec(l) | bin2dec(lines2[i])));
 }
 
+function andLines(lines1, lines2) {
+    return lines1.map((l, i) => dec2bin(bin2dec(l) & bin2dec(lines2[i])));
+}
+
 //return a float (includes lines)
 function getLengthOfSurahInPages(number) {
     let startPageOfCurrent = startPageOfSurahs[surahs[i]];
@@ -365,5 +369,6 @@ export {
     getSurahsContainingTheseLines,
     subtractLines,
     orLines,
+    andLines,
     getLengthOfSurahInPages
 };

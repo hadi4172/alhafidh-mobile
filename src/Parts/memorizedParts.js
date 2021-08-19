@@ -10,7 +10,14 @@ import {
 import { bin2dec, dec2bin, getSum } from "src/Utils/utils";
 import { Juz, Page, Surah } from "./part";
 
-class MemorizedParts extends Array {
+export default class MemorizedParts extends Array {
+    static instance;
+
+    static getInstance() {
+        if (typeof this.instance == "undefined") this.instance = new MemorizedParts();
+        return this.instance;
+    }
+
     push(...parts) {
         for (let part of parts) {
             if (part instanceof Page && part.getMemorizedLines !== part.FULL_PAGE) {
@@ -24,28 +31,53 @@ class MemorizedParts extends Array {
         }
     }
 
-    /**
-     * Pack parts to the greatest (Juz > Surah > Page)
-     */
-    pack() {
-        let juzs = this.filter(p => p instanceof Juz);
-        let surahs = this.filter(p => p instanceof Surah);
-        let pages = this.filter(p => p instanceof Page);
+    getNumberOfPagesMemorized() {
+        let [juzs, surahs, pages] = this.getSeparatedParts();
+        let totalLines = getTotalLines(
+            juzs.map(j => j.number),
+            surahs.map(s => s.number),
+            pages
+        );
 
-        let juzsNumbers = juzs.map(j => j.number);
-        let juzsPagesNumber = convertFromJuzs(juzsNumbers)[1];
-        let surahsNumbers = surahs.map(s => s.number);
-        let surahsLinesNumber = convertFromSurahs(surahsNumbers)[1];
-        let pagesNumber = pages.map(p => p.number);
+        return getSum(totalLines.map(l => l.replace(/0/g, "").length / 15));
+    }
 
-        let totalPagesNumbers = [...new Set([...juzsPagesNumber, ...surahsLinesNumber])];
+    getTotalLines(juzsNumbers, surahsNumbers, pages) {
+        let totalPagesNumbers = [
+            ...new Set([...convertFromJuzs(juzsNumbers)[1], ...convertFromSurahs(surahsNumbers)[1]]),
+        ];
         let totalLines = convertFromPages(totalPagesNumbers)[2];
+
+        let pagesNumber = pages.map(p => p.number);
 
         for (let i = 0, length = pagesNumber.length; i < length; i++) {
             totalLines[pagesNumber[i] - 1] = dec2bin(
                 bin2dec(totalLines[pagesNumber[i] - 1]) | pages.getMemorizedLines()
             );
         }
+
+        return totalLines;
+    }
+
+    getSeparatedParts() {
+        return [
+            this.filter(p => p instanceof Juz),
+            this.filter(p => p instanceof Surah),
+            this.filter(p => p instanceof Page),
+        ];
+    }
+    /**
+     * Pack parts to the greatest (Juz > Surah > Page)
+     */
+    pack() {
+        //TODO s'assurer que les parties sont observées par cette classe
+        let [juzs, surahs, pages] = this.getSeparatedParts();
+
+        let juzsNumbers = juzs.map(j => j.number);
+        let surahsNumbers = surahs.map(s => s.number);
+        let pagesNumber = pages.map(p => p.number);
+
+        let totalLines = getTotalLines(juzsNumbers, surahsNumbers, pages);
 
         let finalJuzsNumbers = convertFromLines(totalLines)[0];
         let finalJuzsLines = convertFromJuzs(finalJuzsNumbers)[2];
@@ -106,14 +138,10 @@ class MemorizedParts extends Array {
         );
 
         let newParts = [
-            ...newJuzs.map((j, i) => Juz.newInstanceWithConsolidation(j, consolidationPerNewJuz[i])),
-            ...newSurahs.map((s, i) => Surah.newInstanceWithConsolidation(s, consolidationPerNewSurah[i])),
+            ...newJuzs.map((j, i) => Juz.newInstanceWithConsolidation(j, consolidationPerNewJuz[i]).addObserver(this)),
+            ...newSurahs.map((s, i) => Surah.newInstanceWithConsolidation(s, consolidationPerNewSurah[i]).addObserver(this)),
             ...linesAfterPages
-                .map((l, i) =>
-                    l !== "000000000000000"
-                        ? Page.newInstance(i + 1).setMemorizedLines(bin2dec(l))
-                        : -1
-                )
+                .map((l, i) => (l !== "000000000000000" ? Page.newInstance(i + 1).setMemorizedLines(bin2dec(l)).addObserver(this) : -1))
                 .filter(e => e !== -1),
         ];
 
@@ -121,5 +149,20 @@ class MemorizedParts extends Array {
 
         this.splice(0, this.length); //empty the array;
         this.push(...thisValuesFiltered);
+    }
+
+    update(message) {
+        for (const key in message) {
+            switch (key) {
+                case "revised":
+                    break;
+                case "neglected":
+                    break;
+                case "lineRevised":
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

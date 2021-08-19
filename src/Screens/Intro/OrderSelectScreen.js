@@ -38,7 +38,7 @@ function OrderSelectScreen(props) {
 
     const [numberedBoxes, setNumberedBoxes] = useState(selectOrderedSurahs.map((n, i) => idOfSurahsInList.includes(i + 1) ? n : 0));
 
-    // console.log(`REFRESHED`, `selectOrderedSurahs: `, selectOrderedSurahs.filter(e => e != 0), `numberedBoxes :`, numberedBoxes.filter(e => e != 0));
+    // console.log(`REFRESHED`, `selectOrderedSurahs: `, selectOrderedSurahs.filter(e => e != 0), `numberedBoxes :`, numberedBoxes/* .filter(e => e != 0) */);
 
     useEffect(() => {
         setNumberedBoxes(numberedBoxes => {

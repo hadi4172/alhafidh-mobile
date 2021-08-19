@@ -1,4 +1,5 @@
 class HifdhInformator {
+    static instance;
     constructor(pagesofbook, daysToFinish, startPoint) {
         this.p = pagesofbook;
         this.s = startPoint;
@@ -6,6 +7,15 @@ class HifdhInformator {
         this.xStartPoint = (this.d * (-4 * this.p + Math.sqrt(this.p * (this.p + 15 * this.s)) 
         + 4 * Math.sqrt(this.p * (17 * this.p + 15 * this.s - 8 * Math.sqrt(this.p * (this.p + 15 * this.s))))))
             / (17 * this.p + 15 * this.s - 8 * Math.sqrt(this.p * this.p + 15 * this.p * this.s)) - this.d;
+    }
+
+    static setMainInstance(pagesofbook, daysToFinish, startPoint){
+        this.instance = this.constructor(pagesofbook, daysToFinish, startPoint);
+        return this.instance;
+    }
+
+    static getMainInstance(){
+        return this.getInstance;
     }
 
     getF(x) {

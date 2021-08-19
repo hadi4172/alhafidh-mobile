@@ -47,6 +47,7 @@ const toggleAllCheckboxSlice = sliceMaker("toggleAllCheckbox", [false, false, fa
 let orderReducers = {set, numberedToggle};
 
 // Contiennent le numéro des sourates familières et à mémoriser dans l'ordre choisi 
+// ex : [0, 0, 0, 1, 2, 3, 4, 0, 0, 0, 9, 8, 7, 6, 5, 0, 0, 0, 0, 0...] length : 114
 const orderedFamiliarSurahsSlice = sliceMaker("orderedFamiliarSurahs", new Array(114).fill(0), orderReducers);
 const orderedToMemorizeSurahsSlice = sliceMaker("orderedToMemorizeSurahs", new Array(114).fill(0), orderReducers);
 
